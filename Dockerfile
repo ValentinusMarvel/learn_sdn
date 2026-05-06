@@ -28,8 +28,11 @@ RUN git clone --depth 1 --branch ${OS_KEN_VERSION} \
 # Add gui
 RUN git clone --depth 1 https://github.com/faucetsdn/ryu.git /opt/ryu && \
     cp -r /opt/ryu/ryu/app/gui_topology /opt/os-ken/os_ken/app/gui_topology && \
+    cp /opt/ryu/ryu/app/wsgi.py /opt/os-ken/os_ken/app/wsgi.py && \
     find /opt/os-ken/os_ken/app/gui_topology -name "*.py" \
-         -exec sed -i 's/from ryu\./from os_ken./g; s/import ryu\./import os_ken./g' {} +
+         -exec sed -i 's/from ryu\./from os_ken./g; s/import ryu\./import os_ken./g' {} + && \
+    sed -i 's/from ryu\./from os_ken./g; s/import ryu\./import os_ken./g' \
+         /opt/os-ken/os_ken/app/wsgi.py
 
 # ==============================================================================
 # Stage 2: Production Runtime
