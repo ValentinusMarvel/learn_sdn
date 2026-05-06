@@ -25,6 +25,12 @@ RUN git clone --depth 1 --branch ${MININET_VERSION} \
 RUN git clone --depth 1 --branch ${OS_KEN_VERSION} \
     https://github.com/openstack/os-ken.git /opt/os-ken
 
+# Add gui
+RUN git clone --depth 1 https://github.com/faucetsdn/ryu.git /opt/ryu && \
+    cp -r /opt/ryu/ryu/app/gui_topology /opt/os-ken/os_ken/app/gui_topology && \
+    find /opt/os-ken/os_ken/app/gui_topology -name "*.py" \
+         -exec sed -i 's/from ryu\./from os_ken./g; s/import ryu\./import os_ken./g' {} +
+
 # ==============================================================================
 # Stage 2: Production Runtime
 # ==============================================================================
