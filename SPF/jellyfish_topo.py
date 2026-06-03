@@ -1,6 +1,7 @@
 from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.node import RemoteController
+from mininet.link import TCLink
 from mininet.util import dumpNodeConnections
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
@@ -112,7 +113,7 @@ class JellyfishTopo( Topo ):
 def run():
     "The Topology for Jellyfish Random Regular Graph"
     topo = JellyfishTopo( num_switches=10, num_ports=4, num_sw_ports=3, seed=42 )
-    net = Mininet( topo=topo, controller=RemoteController, waitConnected=True )
+    net = Mininet( topo=topo, controller=RemoteController, link=TCLink, waitConnected=True )
 
     net.start()
 
