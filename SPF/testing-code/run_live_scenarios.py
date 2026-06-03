@@ -25,6 +25,25 @@ SPF_DIR = THIS_DIR.parent
 if str(SPF_DIR) not in sys.path:
     sys.path.insert(0, str(SPF_DIR))
 
+try:
+    import mininet.link
+    class CustomTCIntf(mininet.link.TCIntf):
+        def bwCmds(self, bw=None, **kwargs):
+            cmds, parent = super().bwCmds(bw=bw, **kwargs)
+            if bw is not None:
+                r2q = max(1, int(bw * 10))
+                new_cmds = []
+                for cmd in cmds:
+                    if 'htb default 1' in cmd:
+                        new_cmds.append(cmd + f' r2q {r2q}')
+                    else:
+                        new_cmds.append(cmd)
+                cmds = new_cmds
+            return cmds, parent
+    mininet.link.TCIntf = CustomTCIntf
+except ImportError:
+    pass
+
 from mininet.link import TCLink
 from mininet.net import Mininet
 from mininet.node import RemoteController
