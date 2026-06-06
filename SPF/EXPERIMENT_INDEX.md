@@ -295,7 +295,7 @@ Use this template untuk log setiap eksperimen run. Copy-paste ke file baru `SPF/
 |-----|------|----------|--------|-----------------|
 | Config orchestration | `SPF/experiments/config.yaml` + runner | MEDIUM | Need YAML-based matrix for reproducibility | Create YAML schema + `SPF/testing-code/run_experiment.py` wrapper |
 | Convergence measurement | `SPF/testing-code/convergence_time.py` | LOW-MEDIUM | Can't measure time-to-stable-state | Polling-based or log-parsing helper |
-| Visualization notebook | `SPF/analysis/plot_results.ipynb` | NICE-TO-HAVE | Manual CSV analysis slower | Create Jupyter notebook for aggregation & plotting |
+| Visualization notebook | `SPF/analysis/plot_results.ipynb` | NICE-TO-HAVE | Manual CSV analysis slower | Follow [Analysis Notebook Pipeline](SPF/docs/pipeline-planning/04-analysis-notebook-pipeline.md) when implementing the notebook |
 
 ### Data Collection Limitations
 - **Live-mode constraint**: 1 topology + 1 algorithm per run (use shell loop for matrix)
@@ -318,6 +318,7 @@ Use this template untuk log setiap eksperimen run. Copy-paste ke file baru `SPF/
 - [Algorithm Docs](SPF/docs/) — per-algorithm deep dives
 - [Live-Mode Planning](SPF/docs/pipeline-planning/01-live-mode-planning.md) — robust execution, logging, and evaluation standard
 - [Scenario-Mode Planning](SPF/docs/pipeline-planning/02-scenario-mode-planning.md) — failure injection, PCAP, and recovery analysis standard
+- [Analysis Notebook Pipeline](SPF/docs/pipeline-planning/04-analysis-notebook-pipeline.md) — CSV ingestion, aggregation, and visualization contract
 - [Run Log Template](SPF/docs/pipeline-planning/03-run-log-template.md) — operational template for live/scenario run logs
 
 ### Benchmark Utilities
@@ -349,6 +350,7 @@ Use this template untuk log setiap eksperimen run. Copy-paste ke file baru `SPF/
 | Pipeline Status | ✅ Core complete, ⏳ Optional features pending |
 | Test Coverage | ✅ Unit tests pass; ⏳ Integration tests need runtime validation |
 | Run Log Template | ✅ Available at `SPF/docs/pipeline-planning/03-run-log-template.md` |
+| Analysis Notebook Pipeline | ✅ Available at `SPF/docs/pipeline-planning/04-analysis-notebook-pipeline.md` |
 | Local Guide Index | ✅ Available at `SPF/docs/topik1-az-guide/INDEX.md` |
 
 ---

@@ -16,6 +16,7 @@ Mulai dari sini kalau ingin navigasi cepat ke seluruh dokumentasi Topik 1.
 - [Testing Modes](../../TESTING_MODES.md) — perbandingan graph-mode, live-mode, dan scenario-mode.
 - [Live-Mode Planning](../pipeline-planning/01-live-mode-planning.md) — standardisasi live execution dan logging.
 - [Scenario-Mode Planning](../pipeline-planning/02-scenario-mode-planning.md) — standardisasi failure injection dan recovery analysis.
+- [Analysis Notebook Pipeline](../pipeline-planning/04-analysis-notebook-pipeline.md) — pipeline CSV ke notebook visualisasi.
 - [Run Log Template](../pipeline-planning/03-run-log-template.md) — template operasional untuk pencatatan run live/scenario.
 
 ## Urutan Baca yang Disarankan
