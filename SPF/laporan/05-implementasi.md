@@ -72,7 +72,7 @@ def _packet_in_handler(self, ev):
 1. Controller menerima pesan `EventOFPPacketIn` dari switch saat tidak ada flow yang cocok.
 2. Paket LLDP langsung diabaikan karena ditangani oleh modul deteksi topologi.
 3. Lokasi host sumber dipelajari dan disimpan dalam tabel `mymacs` (MAC → (dpid, port)).
-4. Jika MAC tujuan sudah diketahui, controller memanggil `compute_path()` — fungsi abstrak yang di-*override* oleh setiap subclass algoritma (A*, Bellman-Ford, atau Widest Path).
+4. Jika MAC tujuan sudah diketahui, controller memanggil `compute_path()`, yaitu fungsi abstrak yang di-*override* oleh setiap subclass algoritma (A*, Bellman-Ford, atau Widest Path).
 5. Jika tidak ada jalur yang ditemukan (misalnya switch tujuan terputus), controller memasang *drop flow* sementara selama 5 detik untuk mencegah *Packet-In storm*.
 
 ### B. Mekanisme Instalasi Flow Rule (*Flow Mod*)
@@ -113,9 +113,9 @@ def _install_unicast_flow(self, datapath, in_port, out_port, src_mac, dst_mac):
 
 **Penjelasan mekanisme:**
 1. `OFPMatch` mendefinisikan kriteria pencocokan: port masuk, MAC sumber, dan MAC tujuan.
-2. Pendekatan **delete-then-add** digunakan untuk menjamin *idempotency* — flow lama dihapus terlebih dahulu sebelum flow baru dipasang, sehingga aman dipanggil berulang kali (misalnya saat rerouting pasca-kegagalan).
+2. Pendekatan **delete-then-add** digunakan untuk menjamin *idempotency* (flow lama dihapus terlebih dahulu sebelum flow baru dipasang), sehingga aman dipanggil berulang kali (misalnya saat rerouting pasca-kegagalan).
 3. Setiap flow ditandai dengan `FLOW_COOKIE` unik per algoritma, memungkinkan penghapusan selektif saat topologi berubah.
-4. Flow dipasang **bidirectional** — baik arah maju (src→dst) maupun arah balik (dst→src) — untuk memastikan komunikasi TCP dua arah dapat berjalan lancar.
+4. Flow dipasang **bidirectional** (baik arah maju (src→dst) maupun arah balik (dst→src)) untuk memastikan komunikasi TCP dua arah dapat berjalan lancar.
 
 ### C. Mekanisme Rerouting Otomatis Saat Topologi Berubah
 
@@ -152,8 +152,8 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 
 **Interpretasi:**
 *   Pada kondisi **baseline** (tanpa gangguan), ketiga algoritma menunjukkan performa throughput yang hampir identik di kedua topologi: **~95.14–95.28 Mbps** pada Jellyfish dan **~94.90–95.28 Mbps** pada Ring-5, mendekati batas kapasitas link 100 Mbps pada emulasi Mininet.
-*   **Anomali kritis pada skenario Bandwidth Throttle di Ring-5**: A* dan Widest Path mengalami degradasi throughput yang sangat tajam — A* turun ke **56.70 Mbps** (penurunan **–40.49%** dari baseline) dan Widest Path turun drastis ke **48.12 Mbps** (penurunan **–49.49%**). Sebaliknya, Bellman-Ford tetap stabil di **94.95 Mbps** (penurunan hanya **+0.05%**).
-*   **Akar penyebab**: Controller Bellman-Ford memperlakukan bandwidth statis dari `link_weights.json` sebagai **biaya/cost jalur** (semakin tinggi bandwidth, semakin tinggi cost), sehingga secara tidak sengaja *menghindari* link `s1-s2` yang memiliki cost tertinggi (1000) — link yang justru sedang di-throttle oleh Mininet. Ini adalah perilaku *bypass throttling* yang tidak disengaja.
+*   **Anomali kritis pada skenario Bandwidth Throttle di Ring-5**: A* dan Widest Path mengalami degradasi throughput yang sangat tajam; A* turun ke **56.70 Mbps** (penurunan **–40.49%** dari baseline) dan Widest Path turun drastis ke **48.12 Mbps** (penurunan **–49.49%**). Sebaliknya, Bellman-Ford tetap stabil di **94.95 Mbps** (penurunan hanya **+0.05%**).
+*   **Akar penyebab**: Controller Bellman-Ford memperlakukan bandwidth statis dari `link_weights.json` sebagai **biaya/cost jalur** (semakin tinggi bandwidth, semakin tinggi cost), sehingga secara tidak sengaja *menghindari* link `s1-s2` yang memiliki cost tertinggi (1000), yaitu link yang justru sedang di-throttle oleh Mininet. Ini adalah perilaku *bypass throttling* yang tidak disengaja.
 *   **Pada topologi Jellyfish**, dampak bandwidth throttle lebih kecil karena topologi acak menyediakan lebih banyak jalur alternatif. Widest Path turun ke **82.37 Mbps** (–13.54%), sedangkan A* dan Bellman-Ford tetap di ~95 Mbps.
 
 ---
@@ -193,7 +193,7 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 | **Bellman-Ford** | **+0.14%** (95.03 Mbps) | +0.19% (95.08 Mbps) |
 | **Widest Path** | –0.61% (94.69 Mbps) | **–20.23%** (75.99 Mbps) |
 
-*   Pada Ring-5, Bellman-Ford menunjukkan **resiliensi luar biasa** — throughput bahkan sedikit *meningkat* (+0.14%) pada fase *during*. Ini disebabkan oleh perilaku bypass throttling yang sama yang telah dijelaskan sebelumnya.
+*   Pada Ring-5, Bellman-Ford menunjukkan **resiliensi luar biasa** di mana throughput bahkan sedikit *meningkat* (+0.14%) pada fase *during*. Ini disebabkan oleh perilaku bypass throttling yang sama yang telah dijelaskan sebelumnya.
 *   A* dan Widest Path mengalami penurunan sangat besar pada fase *pre* (masing-masing **–16.59%** dan **–20.23%**) karena skenario bandwidth_throttle yang secara efektif mengurangi kapasitas link utama s1-s2 dari 1000 Mbps ke 10 Mbps.
 
 ---
@@ -216,7 +216,7 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 **Interpretasi:**
 *   **A\*** dan **Bellman-Ford** menghasilkan rata-rata hop count yang identik: **1.750** pada Jellyfish dan **1.450** pada Ring-5, menunjukkan bahwa keduanya menemukan jalur terpendek yang sama.
 *   **Widest Path** secara konsisten menghasilkan hop count lebih tinggi: **2.250** pada Jellyfish dan **1.650** pada Ring-5. Ini karena algoritma ini mengoptimalkan *bottleneck bandwidth* bukan jarak, sehingga memilih jalur yang lebih panjang tetapi memiliki kapasitas link minimal yang lebih besar.
-*   Perbedaan hop count ini menjelaskan mengapa Widest Path memiliki runtime yang sedikit lebih tinggi — ia memasang lebih banyak flow entries per jalur.
+*   Perbedaan hop count ini menjelaskan mengapa Widest Path memiliki runtime yang sedikit lebih tinggi, karena ia memasang lebih banyak flow entries per jalur.
 
 ---
 
@@ -243,7 +243,7 @@ Berikut adalah tabel peringkat akhir performa algoritma komposit per topologi ha
 ### C. Analisis Anomali dan Catatan Penting
 
 > **Catatan Kritis Mengenai Kemenangan Bellman-Ford:**
-> Bellman-Ford menempati peringkat #1 di kedua topologi bukan karena algoritmanya secara intrinsik superior, melainkan karena **perilaku bypass throttling yang tidak disengaja**. Controller Bellman-Ford membaca kapasitas bandwidth dari `link_weights.json` dan memperlakukannya sebagai *biaya jalur* (cost). Akibatnya, link dengan bandwidth tertinggi (1000 Mbps pada `s1-s2`) dianggap sebagai link dengan cost tertinggi, sehingga Bellman-Ford secara tidak sengaja menghindari link tersebut — link yang justru sedang dibatasi kapasitasnya oleh skenario bandwidth throttle.
+> Bellman-Ford menempati peringkat #1 di kedua topologi bukan karena algoritmanya secara intrinsik superior, melainkan karena **perilaku bypass throttling yang tidak disengaja**. Controller Bellman-Ford membaca kapasitas bandwidth dari `link_weights.json` dan memperlakukannya sebagai *biaya jalur* (cost). Akibatnya, link dengan bandwidth tertinggi (1000 Mbps pada `s1-s2`) dianggap sebagai link dengan cost tertinggi, sehingga Bellman-Ford secara tidak sengaja menghindari link tersebut, yaitu link yang justru sedang dibatasi kapasitasnya oleh skenario bandwidth throttle.
 
 > **Implikasi untuk Desain Perutean:**
 > Temuan ini menunjukkan bahwa **pemilihan representasi bobot link** pada algoritma perutean memiliki dampak yang sangat signifikan terhadap performa. Jika bandwidth digunakan sebagai cost (bukan kapasitas), maka algoritma yang "salah" justru bisa tampil lebih baik dalam kondisi tertentu. Hal ini menjadi rekomendasi penting untuk desain controller SDN di lingkungan produksi.

@@ -42,7 +42,7 @@ graph TD
 ```
 
 **Penjelasan arsitektur:**
-*   **Control Plane**: `SPFBaseController` merupakan kelas induk yang menangani seluruh interaksi OpenFlow (Packet-In, Flow-Mod, LLDP processing). Tiga subclass algoritmik masing-masing hanya perlu mengimplementasikan `compute_path()` — fungsi yang menerima switch sumber, switch tujuan, dan port akses, lalu mengembalikan daftar tuple `(dpid, in_port, out_port)`.
+*   **Control Plane**: `SPFBaseController` merupakan kelas induk yang menangani seluruh interaksi OpenFlow (Packet-In, Flow-Mod, LLDP processing). Tiga subclass algoritmik masing-masing hanya perlu mengimplementasikan `compute_path()`, yaitu fungsi yang menerima switch sumber, switch tujuan, dan port akses, lalu mengembalikan daftar tuple `(dpid, in_port, out_port)`.
 *   **Southbound API**: Pesan OpenFlow 1.3 yang mengalir antara controller dan switch meliputi: *Packet-In* (paket tanpa flow rule dikirim ke controller), *Flow-Mod* (controller memasang/menghapus flow rule), *Port-Status* (notifikasi perubahan status port), dan *LLDP* (deteksi topologi).
 *   **Data Plane**: Contoh di atas menunjukkan topologi Ring-5 dengan 5 switch (s1–s5) yang terhubung melingkar. Setiap switch memiliki 2 host yang terhubung melalui *access port*. Topologi Jellyfish memiliki 10 switch dengan koneksi acak regular (seed 42).
 
@@ -58,7 +58,7 @@ Diagram berikut menjelaskan logika pengendali saat menerima paket baru yang belu
 flowchart TD
     A([Mulai: Packet-In Terdeteksi di Switch]) --> B[Kirim pesan Packet-In ke OS-Ken Controller]
     B --> C{Apakah Paket LLDP?}
-    C -->|Ya| D1([Abaikan — Ditangani Modul Topologi])
+    C -->|Ya| D1([Abaikan, Ditangani Modul Topologi])
     C -->|Tidak| D2{Apakah Src pada Access Port?}
     D2 -->|Ya| E[Pelajari Lokasi Host Src: MAC → dpid, port]
     D2 -->|Tidak| E
@@ -86,7 +86,7 @@ flowchart TD
 3. Lokasi host sumber dipelajari hanya dari *access port* (bukan inter-switch port).
 4. Jika MAC tujuan diketahui, controller memanggil `compute_path()` sesuai algoritma aktif.
 5. Jika tidak ada jalur (misalnya switch tujuan terputus), *drop flow* sementara dipasang selama 5 detik untuk mencegah *Packet-In storm*.
-6. Flow dipasang secara **bidirectional** — baik arah maju maupun balik — pada setiap switch di sepanjang jalur.
+6. Flow dipasang secara **bidirectional** (baik arah maju maupun balik) pada setiap switch di sepanjang jalur.
 
 ---
 
@@ -131,7 +131,7 @@ flowchart TD
     A([Event: Link/Switch Berubah]) --> B[LLDP Mendeteksi Perubahan Topologi]
     B --> C[get_topology_data: Perbarui Switch List, Adjacency, Port Map]
     C --> D{Topologi Signature Berubah?}
-    D -->|Tidak| E([Abaikan — Tidak Ada Perubahan])
+    D -->|Tidak| E([Abaikan, Tidak Ada Perubahan])
     D -->|Ya| F[Hapus Host pada Switch yang Hilang]
     F --> G[Flush Semua Flow Entry yang Dipasang]
     G --> H[Bangun Ulang Broadcast Spanning Tree via BFS]
@@ -144,7 +144,7 @@ flowchart TD
 1. Perubahan topologi dideteksi melalui event LLDP dan divalidasi menggunakan *topology signature* (hash dari daftar switch dan link) untuk menghindari pemrosesan duplikat.
 2. Seluruh flow entry lama di-flush untuk mencegah *stale routing*.
 3. Spanning tree dibangun ulang untuk memastikan controlled flooding tetap berfungsi.
-4. Seluruh rute yang diketahui dihitung ulang secara proaktif menggunakan algoritma aktif — **tanpa menunggu Packet-In baru**.
+4. Seluruh rute yang diketahui dihitung ulang secara proaktif menggunakan algoritma aktif, **tanpa menunggu Packet-In baru**.
 
 ---
 

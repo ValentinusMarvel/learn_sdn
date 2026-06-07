@@ -10,7 +10,7 @@ Berdasarkan analisis terhadap **3.900 baris data** eksperimen (2.100 Jellyfish +
 
 ### A. Resiliensi Perutean Dinamis SDN
 
-Seluruh algoritma (A*, Bellman-Ford, dan Widest Path) berhasil mendemonstrasikan **resiliensi terhadap kegagalan link dinamis**. Pada skenario `link_down_during_traffic` dan `link_flap`, controller OS-Ken secara otomatis mendeteksi perubahan topologi melalui LLDP, menghitung ulang jalur menggunakan algoritma terpilih, dan memasang flow baru ke switch — seluruh proses ini terjadi dalam hitungan milidetik. Penurunan throughput pada skenario kegagalan dinamis berkisar antara **–0.37%** (Bellman-Ford, Ring-5 during) hingga **–6.73%** (A*, Jellyfish during) dari baseline, menunjukkan kemampuan pemulihan yang sangat baik.
+Seluruh algoritma (A*, Bellman-Ford, dan Widest Path) berhasil mendemonstrasikan **resiliensi terhadap kegagalan link dinamis**. Pada skenario `link_down_during_traffic` dan `link_flap`, controller OS-Ken secara otomatis mendeteksi perubahan topologi melalui LLDP, menghitung ulang jalur menggunakan algoritma terpilih, dan memasang flow baru ke switch, yang mana seluruh proses ini terjadi dalam hitungan milidetik. Penurunan throughput pada skenario kegagalan dinamis berkisar antara **–0.37%** (Bellman-Ford, Ring-5 during) hingga **–6.73%** (A*, Jellyfish during) dari baseline, menunjukkan kemampuan pemulihan yang sangat baik.
 
 ### B. Pemenang Peringkat Performa Komposit
 
@@ -46,7 +46,7 @@ Akibatnya, throughput Widest Path turun drastis ke **48.12 Mbps** (–49.49%) pa
 | Skenario diuji | 7 | 6 |
 | Error rate tertinggi | switch_down: 55% | switch_down: 55% |
 
-Seluruh error (389 baris) berasal dari skenario `link_down_during_traffic` dan `switch_down`. Penyebab error utama adalah "iperf3 JSON payload did not include bits_per_second" — menunjukkan bahwa koneksi TCP gagal terbentuk karena jalur terputus total, bukan karena kegagalan algoritma routing.
+Seluruh error (389 baris) berasal dari skenario `link_down_during_traffic` dan `switch_down`. Penyebab error utama adalah "iperf3 JSON payload did not include bits_per_second", yang menunjukkan bahwa koneksi TCP gagal terbentuk karena jalur terputus total, bukan karena kegagalan algoritma routing.
 
 ---
 
@@ -58,7 +58,7 @@ Selama implementasi dan pengujian proyek ini, beberapa kendala teknis signifikan
 
 2.  **Masalah Skalabilitas Packet-In**: Penanganan rute pertama menggunakan mekanisme *Packet-In* memicu latensi komputasi awal di controller OS-Ken sebelum flow dipasang di switch. Pada eksperimen dengan `max_pairs=20`, hal ini berarti **20 pasangan host × 2 arah = 40 kalkulasi jalur** harus dilakukan per skenario. Meskipun latensi per kalkulasi hanya ~0.05–0.27 ms, akumulasinya dapat menjadi bottleneck pada topologi yang jauh lebih besar.
 
-3.  **Keterbatasan Simulasi Switch Down di Mininet**: Skenario `switch_down` memotong koneksi fisik host ke switch secara mutlak. Pada Ring-5 (5 switch, 2 host per switch), mematikan satu switch langsung menghilangkan **2 host** dari jaringan, menghasilkan success rate hanya **45%** — bukan karena kegagalan algoritma routing, melainkan karena ketiadaan jalur fisik alternatif menuju host yang terisolasi. Hal ini mengindikasikan bahwa skenario switch_down lebih menguji **topologi fisik** daripada **algoritma routing**.
+3.  **Keterbatasan Simulasi Switch Down di Mininet**: Skenario `switch_down` memotong koneksi fisik host ke switch secara mutlak. Pada Ring-5 (5 switch, 2 host per switch), mematikan satu switch langsung menghilangkan **2 host** dari jaringan, menghasilkan success rate hanya **45%**, yang mana hal ini terjadi bukan karena kegagalan algoritma routing, melainkan karena ketiadaan jalur fisik alternatif menuju host yang terisolasi. Hal ini mengindikasikan bahwa skenario switch_down lebih menguji **topologi fisik** daripada **algoritma routing**.
 
 4.  **Waktu Eksekusi Pengujian yang Panjang**: Dengan `max_pairs=20` dan `repetitions=5`, total eksekusi mencakup **3 algoritma × 2 topologi × 6–7 skenario × 20 pasangan × 5 repetisi = 3.900 tes individual**, masing-masing melibatkan inisialisasi Mininet, konvergensi topologi, transfer iperf3 5 detik, dan penangkapan pcap. Total waktu eksekusi memerlukan beberapa jam pada VM.
 
