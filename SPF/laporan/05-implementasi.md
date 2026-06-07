@@ -148,7 +148,7 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 
 ### A. Perbandingan Throughput Rata-Rata per Skenario
 
-![Throughput Comparison](/workspaces/learn_sdn/SPF/img/analysis/throughput_by_topology.png)
+![Throughput Comparison](../img/analysis/throughput_by_topology.png)
 
 **Interpretasi:**
 *   Pada kondisi **baseline** (tanpa gangguan), ketiga algoritma menunjukkan performa throughput yang hampir identik di kedua topologi: **~95.14–95.28 Mbps** pada Jellyfish dan **~94.90–95.28 Mbps** pada Ring-5, mendekati batas kapasitas link 100 Mbps pada emulasi Mininet.
@@ -160,7 +160,7 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 
 ### B. Distribusi Waktu Komputasi Jalur (Runtime)
 
-![Runtime Distribution](/workspaces/learn_sdn/SPF/img/analysis/runtime_distribution.png)
+![Runtime Distribution](../img/analysis/runtime_distribution.png)
 
 **Interpretasi:**
 *   **A\*** memiliki runtime komputasi jalur tercepat secara konsisten, dengan rata-rata **0.054–0.073 ms** tergantung skenario. Penggunaan heuristik *reverse-BFS hop-count* secara efektif membatasi jumlah node graf yang perlu diperiksa (*pruning*).
@@ -172,7 +172,7 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 
 ### C. Analisis Resiliensi: Dampak Kegagalan (*Failure Recovery*)
 
-![Failure Recovery](/workspaces/learn_sdn/SPF/img/analysis/failure_recovery_analysis.png)
+![Failure Recovery](../img/analysis/failure_recovery_analysis.png)
 
 **Interpretasi:**
 
@@ -200,7 +200,7 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 
 ### D. Analisis Retransmisi TCP
 
-![Retransmits Analysis](/workspaces/learn_sdn/SPF/img/analysis/retransmits_analysis.png)
+![Retransmits Analysis](../img/analysis/retransmits_analysis.png)
 
 **Interpretasi:**
 *   Skenario **link_flap** menghasilkan retransmisi TCP tertinggi pada kedua topologi: A* sebanyak **17.283** pada Jellyfish dan Widest Path sebanyak **16.231** pada Jellyfish, serta **13.271** pada Ring-5.
@@ -211,7 +211,7 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 
 ### E. Hop Count Comparison
 
-![Hop Count Comparison](/workspaces/learn_sdn/SPF/img/analysis/hop_count_comparison.png)
+![Hop Count Comparison](../img/analysis/hop_count_comparison.png)
 
 **Interpretasi:**
 *   **A\*** dan **Bellman-Ford** menghasilkan rata-rata hop count yang identik: **1.750** pada Jellyfish dan **1.450** pada Ring-5, menunjukkan bahwa keduanya menemukan jalur terpendek yang sama.
