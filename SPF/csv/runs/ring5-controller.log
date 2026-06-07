@@ -1,0 +1,836 @@
+/workspaces/learn_sdn/SPF/base_controller.py:32: EventletDeprecationWarning: 
+Eventlet is deprecated. It is currently being maintained in bugfix mode, and
+we strongly recommend against using it for new projects.
+
+If you are already using Eventlet, we recommend migrating to a different
+framework.  For more detail see
+https://eventlet.readthedocs.io/en/latest/asyncio/migration.html
+
+  import eventlet
+loading app /workspaces/learn_sdn/SPF/widest_path_osken_controller.py
+loading app os_ken.controller.ofp_handler
+loading app os_ken.topology.switches
+loading app os_ken.controller.ofp_handler
+instantiating app /workspaces/learn_sdn/SPF/widest_path_osken_controller.py of WidestPathSwitch
+[WP-WEIGHTS] loaded 8 bandwidth entries from /workspaces/learn_sdn/SPF/link_weights.json
+instantiating app os_ken.controller.ofp_handler of OFPHandler
+instantiating app os_ken.topology.switches of Switches
+[TOPO-INITIAL] 5 switch(es) 10 link(s)
+[TREE-DONE] root=s1 tree_edges=5 reachable=5/5
+[TOPO] route refresh: installed=0 skipped=0 unreachable=0 hosts=0
+[HOST-LEARN] MAC 00:00:00:00:00:01 discovered at s1 port 1
+[HOST-LEARN] MAC 00:00:00:00:00:02 discovered at s1 port 2
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:02: s5 not in path
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:02: s2 not in path
+[HOST-LEARN] MAC 00:00:00:00:00:03 discovered at s2 port 1
+[WP-DONE] s2->s1 bottleneck=1000.0 Mbps
+[PATH-COMPUTED] s2→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s2 bottleneck=1000.0 Mbps
+[PATH-COMPUTED] s1→s2: 1 hop(s) 4 flow entries
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:03: s3 not in path
+[HOST-LEARN] MAC 00:00:00:00:00:04 discovered at s2 port 2
+[WP-DONE] s2->s1 bottleneck=1000.0 Mbps
+[PATH-COMPUTED] s2→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s2 bottleneck=1000.0 Mbps
+[PATH-COMPUTED] s1→s2: 1 hop(s) 4 flow entries
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:04: s3 not in path
+[HOST-LEARN] MAC 00:00:00:00:00:05 discovered at s3 port 1
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 2 hop(s) 6 flow entries
+[HOST-LEARN] MAC 00:00:00:00:00:06 discovered at s3 port 2
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 2 hop(s) 6 flow entries
+[HOST-LEARN] MAC 00:00:00:00:00:07 discovered at s4 port 1
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 3 hop(s) 8 flow entries
+[HOST-LEARN] MAC 00:00:00:00:00:08 discovered at s4 port 2
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 3 hop(s) 8 flow entries
+[HOST-LEARN] MAC 00:00:00:00:00:09 discovered at s5 port 1
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:09: s4 not in path
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:09: s2 not in path
+[HOST-LEARN] MAC 00:00:00:00:00:0a discovered at s5 port 2
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:0a: s4 not in path
+[PKT-DROP] 00:00:00:00:00:01→00:00:00:00:00:0a: s2 not in path
+[WP-DONE] s1->s2 bottleneck=1000.0 Mbps
+[PATH-COMPUTED] s1→s2: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s2 bottleneck=1000.0 Mbps
+[PATH-COMPUTED] s1→s2: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s2 bottleneck=inf Mbps
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s3 bottleneck=inf Mbps
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s4 bottleneck=inf Mbps
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[TOPO-CHANGE] switches=5 links=8  delta +0 -2
+[TOPO-DOWN] [(1, 2), (2, 1)]
+[TOPO-REFRESH] flushing 52 flows, rebuilding routes
+[TREE-DONE] root=s1 tree_edges=5 reachable=5/5
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-DONE] s1->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s2: 4 hop(s) 10 flow entries
+[WP-DONE] s1->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s2: 4 hop(s) 10 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-DONE] s1->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s2: 4 hop(s) 10 flow entries
+[WP-DONE] s1->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s2: 4 hop(s) 10 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s1: 4 hop(s) 10 flow entries
+[WP-DONE] s2->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s1: 4 hop(s) 10 flow entries
+[WP-DONE] s2->s2 bottleneck=inf Mbps
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 3 hop(s) 8 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 3 hop(s) 8 flow entries
+[WP-DONE] s2->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s1: 4 hop(s) 10 flow entries
+[WP-DONE] s2->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s1: 4 hop(s) 10 flow entries
+[WP-DONE] s2->s2 bottleneck=inf Mbps
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 3 hop(s) 8 flow entries
+[WP-DONE] s2->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s2→s5: 3 hop(s) 8 flow entries
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s3->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s2: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s2: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s3 bottleneck=inf Mbps
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s3->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s2: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s2: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s3 bottleneck=inf Mbps
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s2: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s2: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s4 bottleneck=inf Mbps
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s2: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s2: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s4 bottleneck=inf Mbps
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s2: 3 hop(s) 8 flow entries
+[WP-DONE] s5->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s2: 3 hop(s) 8 flow entries
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s2: 3 hop(s) 8 flow entries
+[WP-DONE] s5->s2 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s2: 3 hop(s) 8 flow entries
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[TOPO] route refresh: installed=90 skipped=0 unreachable=0 hosts=10
+[TOPO-CHANGE] switches=5 links=6  delta +0 -2
+[TOPO-DOWN] [(2, 3), (3, 2)]
+[TOPO-REFRESH] flushing 90 flows, rebuilding routes
+[TREE-DONE] root=s1 tree_edges=4 reachable=4/5
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:03 no path (s1→s2)
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:04 no path (s1→s2)
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:03 no path (s1→s2)
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:04 no path (s1→s2)
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s3: 3 hop(s) 8 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:01 no path (s2→s1)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:02 no path (s2→s1)
+[WP-UNREACHABLE] s2->s2 no path with non-zero bandwidth
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:05 no path (s2→s3)
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:06 no path (s2→s3)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:07 no path (s2→s4)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:08 no path (s2→s4)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:09 no path (s2→s5)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:0a no path (s2→s5)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:01 no path (s2→s1)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:02 no path (s2→s1)
+[WP-UNREACHABLE] s2->s2 no path with non-zero bandwidth
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:05 no path (s2→s3)
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:06 no path (s2→s3)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:07 no path (s2→s4)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:08 no path (s2→s4)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:09 no path (s2→s5)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:0a no path (s2→s5)
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:03 no path (s3→s2)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:04 no path (s3→s2)
+[WP-DONE] s3->s3 bottleneck=inf Mbps
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-DONE] s3->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s1: 3 hop(s) 8 flow entries
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:03 no path (s3→s2)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:04 no path (s3→s2)
+[WP-DONE] s3->s3 bottleneck=inf Mbps
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s4 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s3→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s3->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s3→s5: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:03 no path (s4→s2)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:04 no path (s4→s2)
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s4 bottleneck=inf Mbps
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:03 no path (s4→s2)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:04 no path (s4→s2)
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s3 bottleneck=100.0 Mbps
+[PATH-COMPUTED] s4→s3: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s4 bottleneck=inf Mbps
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:03 no path (s5→s2)
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:04 no path (s5→s2)
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:03 no path (s5→s2)
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:04 no path (s5→s2)
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s3 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s3: 2 hop(s) 6 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[TOPO] route refresh: installed=58 skipped=0 unreachable=32 hosts=10
+[TOPO-CHANGE] switches=5 links=4  delta +0 -2
+[TOPO-DOWN] [(3, 4), (4, 3)]
+[TOPO-REFRESH] flushing 58 flows, rebuilding routes
+[TREE-DONE] root=s1 tree_edges=3 reachable=3/5
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:03 no path (s1→s2)
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:04 no path (s1→s2)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:05 no path (s1→s3)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:06 no path (s1→s3)
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:03 no path (s1→s2)
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:04 no path (s1→s2)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:05 no path (s1→s3)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:06 no path (s1→s3)
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s4: 2 hop(s) 6 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:01 no path (s2→s1)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:02 no path (s2→s1)
+[WP-UNREACHABLE] s2->s2 no path with non-zero bandwidth
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:05 no path (s2→s3)
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:06 no path (s2→s3)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:07 no path (s2→s4)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:08 no path (s2→s4)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:09 no path (s2→s5)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:0a no path (s2→s5)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:01 no path (s2→s1)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:02 no path (s2→s1)
+[WP-UNREACHABLE] s2->s2 no path with non-zero bandwidth
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:05 no path (s2→s3)
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:06 no path (s2→s3)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:07 no path (s2→s4)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:08 no path (s2→s4)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:09 no path (s2→s5)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:0a no path (s2→s5)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:01 no path (s3→s1)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:02 no path (s3→s1)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:03 no path (s3→s2)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:04 no path (s3→s2)
+[WP-UNREACHABLE] s3->s3 no path with non-zero bandwidth
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:07 no path (s3→s4)
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:08 no path (s3→s4)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:09 no path (s3→s5)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:0a no path (s3→s5)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:01 no path (s3→s1)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:02 no path (s3→s1)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:03 no path (s3→s2)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:04 no path (s3→s2)
+[WP-UNREACHABLE] s3->s3 no path with non-zero bandwidth
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:07 no path (s3→s4)
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:08 no path (s3→s4)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:09 no path (s3→s5)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:0a no path (s3→s5)
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:03 no path (s4→s2)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:04 no path (s4→s2)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:05 no path (s4→s3)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:06 no path (s4→s3)
+[WP-DONE] s4->s4 bottleneck=inf Mbps
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-DONE] s4->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s1: 2 hop(s) 6 flow entries
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:03 no path (s4→s2)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:04 no path (s4→s2)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:05 no path (s4→s3)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:06 no path (s4→s3)
+[WP-DONE] s4->s4 bottleneck=inf Mbps
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s4->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s4→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:03 no path (s5→s2)
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:04 no path (s5→s2)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:05 no path (s5→s3)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:06 no path (s5→s3)
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:03 no path (s5→s2)
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:04 no path (s5→s2)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:05 no path (s5→s3)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:06 no path (s5→s3)
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s4 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s4: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[TOPO] route refresh: installed=34 skipped=0 unreachable=56 hosts=10
+[TOPO-CHANGE] switches=5 links=2  delta +0 -2
+[TOPO-DOWN] [(4, 5), (5, 4)]
+[TOPO-REFRESH] flushing 34 flows, rebuilding routes
+[TREE-DONE] root=s1 tree_edges=2 reachable=2/5
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:03 no path (s1→s2)
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:04 no path (s1→s2)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:05 no path (s1→s3)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:06 no path (s1→s3)
+[WP-UNREACHABLE] s1->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:07 no path (s1→s4)
+[WP-UNREACHABLE] s1->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:01→00:00:00:00:00:08 no path (s1→s4)
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s1 bottleneck=inf Mbps
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:03 no path (s1→s2)
+[WP-UNREACHABLE] s1->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:04 no path (s1→s2)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:05 no path (s1→s3)
+[WP-UNREACHABLE] s1->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:06 no path (s1→s3)
+[WP-UNREACHABLE] s1->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:07 no path (s1→s4)
+[WP-UNREACHABLE] s1->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:02→00:00:00:00:00:08 no path (s1→s4)
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-DONE] s1->s5 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s1→s5: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:01 no path (s2→s1)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:02 no path (s2→s1)
+[WP-UNREACHABLE] s2->s2 no path with non-zero bandwidth
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:05 no path (s2→s3)
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:06 no path (s2→s3)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:07 no path (s2→s4)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:08 no path (s2→s4)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:09 no path (s2→s5)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:03→00:00:00:00:00:0a no path (s2→s5)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:01 no path (s2→s1)
+[WP-UNREACHABLE] s2->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:02 no path (s2→s1)
+[WP-UNREACHABLE] s2->s2 no path with non-zero bandwidth
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:05 no path (s2→s3)
+[WP-UNREACHABLE] s2->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:06 no path (s2→s3)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:07 no path (s2→s4)
+[WP-UNREACHABLE] s2->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:08 no path (s2→s4)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:09 no path (s2→s5)
+[WP-UNREACHABLE] s2->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:04→00:00:00:00:00:0a no path (s2→s5)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:01 no path (s3→s1)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:02 no path (s3→s1)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:03 no path (s3→s2)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:04 no path (s3→s2)
+[WP-UNREACHABLE] s3->s3 no path with non-zero bandwidth
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:07 no path (s3→s4)
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:08 no path (s3→s4)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:09 no path (s3→s5)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:05→00:00:00:00:00:0a no path (s3→s5)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:01 no path (s3→s1)
+[WP-UNREACHABLE] s3->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:02 no path (s3→s1)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:03 no path (s3→s2)
+[WP-UNREACHABLE] s3->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:04 no path (s3→s2)
+[WP-UNREACHABLE] s3->s3 no path with non-zero bandwidth
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:07 no path (s3→s4)
+[WP-UNREACHABLE] s3->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:08 no path (s3→s4)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:09 no path (s3→s5)
+[WP-UNREACHABLE] s3->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:06→00:00:00:00:00:0a no path (s3→s5)
+[WP-UNREACHABLE] s4->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:01 no path (s4→s1)
+[WP-UNREACHABLE] s4->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:02 no path (s4→s1)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:03 no path (s4→s2)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:04 no path (s4→s2)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:05 no path (s4→s3)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:06 no path (s4→s3)
+[WP-UNREACHABLE] s4->s4 no path with non-zero bandwidth
+[WP-UNREACHABLE] s4->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:09 no path (s4→s5)
+[WP-UNREACHABLE] s4->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:07→00:00:00:00:00:0a no path (s4→s5)
+[WP-UNREACHABLE] s4->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:01 no path (s4→s1)
+[WP-UNREACHABLE] s4->s1 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:02 no path (s4→s1)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:03 no path (s4→s2)
+[WP-UNREACHABLE] s4->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:04 no path (s4→s2)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:05 no path (s4→s3)
+[WP-UNREACHABLE] s4->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:06 no path (s4→s3)
+[WP-UNREACHABLE] s4->s4 no path with non-zero bandwidth
+[WP-UNREACHABLE] s4->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:09 no path (s4→s5)
+[WP-UNREACHABLE] s4->s5 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:08→00:00:00:00:00:0a no path (s4→s5)
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:03 no path (s5→s2)
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:04 no path (s5→s2)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:05 no path (s5→s3)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:06 no path (s5→s3)
+[WP-UNREACHABLE] s5->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:07 no path (s5→s4)
+[WP-UNREACHABLE] s5->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:09→00:00:00:00:00:08 no path (s5→s4)
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-DONE] s5->s1 bottleneck=1.0 Mbps
+[PATH-COMPUTED] s5→s1: 1 hop(s) 4 flow entries
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:03 no path (s5→s2)
+[WP-UNREACHABLE] s5->s2 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:04 no path (s5→s2)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:05 no path (s5→s3)
+[WP-UNREACHABLE] s5->s3 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:06 no path (s5→s3)
+[WP-UNREACHABLE] s5->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:07 no path (s5→s4)
+[WP-UNREACHABLE] s5->s4 no path with non-zero bandwidth
+[ROUTE-INSTALL] 00:00:00:00:00:0a→00:00:00:00:00:08 no path (s5→s4)
+[WP-DONE] s5->s5 bottleneck=inf Mbps
+[TOPO] route refresh: installed=18 skipped=0 unreachable=72 hosts=10
