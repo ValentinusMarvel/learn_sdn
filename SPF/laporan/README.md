@@ -17,7 +17,7 @@ Daftar di bawah ini merupakan dokumen kerangka kerja terpisah yang memetakan bab
 3. **[03-deskripsi-solusi.md](file:///c:/Users/anang/OneDrive/Documents/GitHub/learn_sdn/SPF/laporan/03-deskripsi-solusi.md)**  
    *Mencakup: Outline Bagian 4 (Deskripsi Solusi - Gambaran Umum Solusi, Fitur Utama/Komponen, serta Alat & Teknologi).*
 4. **[04-perancangan-sistem.md](file:///c:/Users/anang/OneDrive/Documents/GitHub/learn_sdn/SPF/laporan/04-perancangan-sistem.md)**  
-   *Mencakup: Outline Bagian 5 (Perancangan Sistem - Arsitektur Jaringan SDN, Flowchart Paket Ryu Controller, Flowchart Siklus Testbed, dan Desain CLI).*  
+   *Mencakup: Outline Bagian 5 (Perancangan Sistem - Arsitektur Jaringan SDN, Flowchart Paket OS-Ken Controller, Flowchart Siklus Testbed, dan Desain CLI).*  
    *🎯 Fokus Rubrik: Desain dan Arsitektur Solusi (Skor Maksimal: 5/5)*
 5. **[05-implementasi.md](file:///c:/Users/anang/OneDrive/Documents/GitHub/learn_sdn/SPF/laporan/05-implementasi.md)**  
    *Mencakup: Outline Bagian 6 (Implementasi - Penjelasan Komponen Utama Codebase, Snippet Mekanisme Pengiriman Flow OpenFlow, dan Grafik Visualisasi Analisis Performa).*  
@@ -33,7 +33,7 @@ Setiap bagian skeleton di dalam berkas-berkas di atas telah disisipkan kotak pet
 
 Secara garis besar, pastikan Anda memenuhi kriteria berikut:
 * **Pemahaman Masalah & Tujuan**: Deskripsikan urgensi membandingkan A*, Bellman-Ford, dan Widest Path secara mendalam di bawah kondisi kegagalan, bukan sekadar teori umum jaringan.
-* **Desain & Arsitektur Solusi**: Sertakan diagram arsitektur Ryu-Mininet dan alur logis flowchart pemrosesan paket (tersedia panduan sintaksis Mermaid di dalam file rancangan).
+* **Desain & Arsitektur Solusi**: Sertakan diagram arsitektur OS-Ken-Mininet dan alur logis flowchart pemrosesan paket (tersedia panduan sintaksis Mermaid di dalam file rancangan).
 * **Implementasi & Hasil**: Masukkan cuplikan kode penting seperti penanganan paket OpenFlow dan penyajian grafik visualisasi throughput/loss yang rapi hasil ekspor Jupyter Notebook.
 * **Presentasi (Video)**: Pastikan video presentasi berdurasi sesuai ketentuan, menjelaskan demo kode secara runtut, dan tautan YouTube dicantumkan dengan benar di dokumen identitas.
 * **Dokumentasi & Pengumpulan**: Format dokumen terstruktur rapi. Sebelum pengumpulan, satukan seluruh berkas Markdown tersegmentasi ini menjadi satu file utama (misalnya `Laporan_Akhir_AJM.md`).

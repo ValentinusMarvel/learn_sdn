@@ -4,7 +4,7 @@
 ---
 
 # 1. Judul Proyek
-**Analisis Komparatif Performa dan Resiliensi Algoritma Routing Single-Source Shortest Path (A\*, Bellman-Ford, dan Widest Path) pada Jaringan Software-Defined Networking (SDN) Berbasis Ryu dan Mininet**
+**Analisis Komparatif Performa dan Resiliensi Algoritma Routing Single-Source Shortest Path (A\*, Bellman-Ford, dan Widest Path) pada Jaringan Software-Defined Networking (SDN) Berbasis OS-Ken dan Mininet**
 
 ---
 
