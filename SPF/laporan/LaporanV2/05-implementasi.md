@@ -1,105 +1,143 @@
 # 4.6 Implementasi
 
-> [!TIP]
-> **PANDUAN PENULISAN IMPLEMENTASI (Skor Maksimal: 5/5):**
-> *   **Panjang**: Total berkisar antara **1–2 halaman** (sekitar 400–600 kata).
-> *   **Pembahasan Kode**: Jangan lampirkan seluruh file kode. Tampilkan hanya cuplikan logika kritis (fungsi utama) dengan batas maksimal **30 baris** per cuplikan.
-> *   **Kejujuran Akademik**: Uraikan kendala teknis nyata yang dihadapi (seperti inkonsistensi bandwidth JSON vs iperf3 throttling, isolasi node, atau skalabilitas Packet-In) dan jelaskan solusi konkretnya.
-
----
-
 ## 4.6.1 Integrasi dengan Repositori
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN INTEGRASI REPOSITORI:**
-> *   Jelaskan bagaimana struktur kode program proyek diintegrasikan dalam repositori `learn_sdn`.
-> *   Sebutkan berkas-berkas utama yang digunakan, seperti berkas pengendali dasar `base_controller.py`, berkas subclasses pengendali algoritme (`astar_osken_controller.py`, `bellman_ford_osken_controller.py`, `widest_path_osken_controller.py`), skrip topologi Mininet, dan berkas modul pustaka routing murni.
+Implementasi perutean SPF terintegrasi penuh dengan struktur modular repositori `learn_sdn` di GitHub ([github.com/ValentinusMarvel/learn_sdn](https://github.com/ValentinusMarvel/learn_sdn)). Desain arsitektur mengikuti pola *template method*, di mana kelas induk menangani seluruh logika OpenFlow dan kelas anak hanya perlu mengimplementasikan fungsi `compute_path()`.
 
-### [TEMPLAT DRAFT INTEGRASI REPOSITORI]
-Implementasi perutean SPF terintegrasi dengan struktur modular repositori `learn_sdn`. Pengkodean dibagi menjadi beberapa bagian utama:
-1.  **Kelas Induk Pengendali (`base_controller.py`)**: Menyediakan kerangka dasar yang menangani penemuan topologi, penanganan event OpenFlow, serta pemasangan flow aturan aliran ke switch.
-2.  **Kelas Anak Algoritmik** (`*_osken_controller.py`): Subclasses khusus yang mewarisi fungsi dari `base_controller.py` dan bertugas melakukan overriding pada fungsi `compute_path()` untuk memicu algoritme perutean spesifik.
-3.  **Modul Algoritme Routing Murni** (`SPF/algorithms/`): Kode Python terisolasi untuk penyelesaian pencarian rute pada graf terlepas dari dependensi OpenFlow/OS-Ken, memudahkan debugging dan unit testing.
-4.  **Skrip Eksperimen Otomatis** (`SPF/testing-code/run_live_scenarios.py`): Mengintegrasikan pengendali dan topologi Mininet serta merekam data performa.
+**Tabel Pemetaan Berkas Implementasi:**
+
+| Komponen | Nama Berkas | Peran dan Fungsi |
+| :--- | :--- | :--- |
+| **Topologi** | `topo-ring5_lab.py` | Membangun topologi Ring-5 (5 switch, 10 host, 2 host per switch, 100 Mbps, 2 ms delay). |
+| | `jellyfish_topo.py` | Membangun topologi acak regular Jellyfish (10 switch, 10 host, seed 42). |
+| **Pengendali Induk** | `base_controller.py` | Kerangka dasar: deteksi topologi LLDP, pembelajaran host MAC, instalasi flow OpenFlow 1.3, pembangunan spanning tree BFS, rerouting otomatis. |
+| **Pengendali Algoritme** | `astar_osken_controller.py` | Subclass A\* dengan heuristik *reverse-BFS*. |
+| | `bellman_ford_osken_controller.py` | Subclass Bellman-Ford menggunakan bobot dari `link_weights.json`. |
+| | `widest_path_osken_controller.py` | Subclass Widest Path (modifikasi Dijkstra dengan *max-heap*). |
+| **Algoritme Murni** | `algorithms/astar.py` | Implementasi pencarian A\* terpisah dari dependensi OS-Ken. |
+| | `algorithms/bellman_ford.py` | Implementasi Bellman-Ford murni dengan deteksi *negative cycle*. |
+| | `algorithms/widest_path.py` | Implementasi pencarian jalur dengan *bottleneck bandwidth* maksimal. |
+| **Testbed** | `benchmark_core.py` | Logika eksekusi otomatisasi 7 skenario kegagalan. |
+| | `benchmark_jsonl_to_csv.py` | Konversi log JSONL ke tabel CSV terstruktur. |
+| **Konfigurasi** | `link_weights.json` | File JSON bobot kapasitas tautan statis yang dibaca oleh controller Bellman-Ford dan Widest Path. |
+| **Analisis** | `analysis/plot_results_executed_final.ipynb` | Jupyter Notebook pipeline analisis data: statistik, peringkat komposit, dan 8 visualisasi grafis. |
+
+Diagram arsitektur sistem yang menggambarkan pemisahan *control plane* dan *data plane* adalah sebagai berikut:
+
+```mermaid
+graph TD
+    subgraph ControlPlane ["Control Plane (OS-Ken Controllers)"]
+        base["base_controller.py\nSPFBaseController\nPacket-In / Flow-Mod / LLDP"]
+        base --> c_astar["astar_osken_controller.py\ncompute_path() → A*"]
+        base --> c_bf["bellman_ford_osken_controller.py\ncompute_path() → Bellman-Ford"]
+        base --> c_wp["widest_path_osken_controller.py\ncompute_path() → Widest Path"]
+    end
+
+    subgraph Southbound ["Southbound API (OpenFlow 1.3)"]
+        msg["Packet-In / Flow-Mod / Port-Status / LLDP"]
+    end
+
+    subgraph DataPlane ["Data Plane (Mininet + Open vSwitch)"]
+        s1((s1)) <--> s2((s2))
+        s2 <--> s3((s3))
+        s3 <--> s4((s4))
+        s4 <--> s5((s5))
+        s5 <--> s1
+        h1[h1] --- s1
+        h10[h10] --- s5
+    end
+
+    base <--> msg
+    msg <--> s1
+    msg <--> s2
+    msg <--> s5
+```
 
 ---
 
 ## 4.6.2 Modifikasi yang Dilakukan
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN MODIFIKASI KODE:**
-> *   Jelaskan logika modifikasi yang dilakukan pada controller untuk mencapai tujuan proyek:
->     1.  **Fungsi `_packet_in_handler`**: Penanganan paket baru dan pembelajaran alamat MAC host.
->     2.  **Fungsi `_install_unicast_flow` / `install_path`**: Pemasangan flow rule bidirectional (maju-mundur) dengan pendekatan *delete-then-add* untuk menjamin idempotensi.
->     3.  **Fungsi `get_topology_data`**: Penemuan topologi dinamis via LLDP dan pembersihan/re-kalkulasi rute saat terjadi perubahan tautan.
-> *   Lampirkan cuplikan kode kritis maksimal 30 baris per fungsi.
+Tiga mekanisme kritis diimplementasikan di dalam `base_controller.py` untuk mendukung tujuan proyek:
 
-### [TEMPLAT DRAFT CUPLIKAN KODE KONTROLER]
+**A. Penanganan Paket Baru (*Packet-In Handler*)**
 
-#### 1. Mekanisme Rerouting Otomatis (Event LLDP)
-Untuk menjamin resiliensi dinamis terhadap kegagalan link, pengendali memantau perubahan topologi signature dan secara proaktif meng-flush flow rule lama serta memasang jalur baru:
+Saat switch menerima paket yang belum memiliki aturan aliran, paket tersebut diteruskan ke OS-Ken melalui mekanisme *Packet-In*. Handler berikut menangani pembelajaran MAC host dan pemanggilan fungsi `compute_path()`:
 
 ```python
-# Berkas base_controller.py (maksimal 30 baris)
-@set_ev_cls(TOPOLOGY_EVENTS)
-def get_topology_data(self, ev):
-    # Parse switches dan links aktual dari modul OS-Ken
-    sw_list = get_switch(self.topology_api_app, None)
-    links_list = get_link(self.topology_api_app, None)
-    
-    # Validasi perubahan topologi menggunakan signature hash
-    new_sig = self._calculate_signature(sw_list, links_list)
-    if self.old_sig != new_sig:
-        self.old_sig = new_sig
-        self._flush_all_flows()             # Hapus flow lama
-        self._build_broadcast_tree()        # Bangun spanning tree BFS
-        self._reinstall_all_known_routes()  # Rerouting proaktif
+# Berkas: base_controller.py (Fungsi _packet_in_handler)
+@set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
+def _packet_in_handler(self, ev):
+    msg = ev.msg
+    dp = msg.datapath
+    in_port = msg.match["in_port"]
+    pkt = packet.Packet(msg.data)
+    eth = pkt.get_protocol(ethernet.ethernet)
+    if eth.ethertype == ether_types.ETH_TYPE_LLDP:
+        return  # Paket LLDP ditangani modul topologi
+    src, dst = eth.src, eth.dst
+    # Pelajari lokasi host sumber dari port akses
+    if self._is_access_port(dp.id, in_port):
+        self._update_host_location(src, dp.id, in_port)
+    if dst in self.mymacs:
+        # Tujuan diketahui: hitung jalur dan pasang flow
+        src_sw, src_port = self.mymacs[src]
+        dst_sw, dst_port = self.mymacs[dst]
+        p = self.compute_path(src_sw, dst_sw, src_port, dst_port)
+        if p:
+            self.install_path(p, src, dst)
+        else:
+            # Tidak ada jalur: pasang drop flow sementara (5 detik)
+            self._install_drop_flow(dp, in_port, src, dst, idle_timeout=5)
+    else:
+        # Tujuan tidak diketahui: flood melalui spanning tree BFS
+        self._flood_over_tree(dp, in_port, msg.data, msg.buffer_id)
 ```
 
-#### 2. Mekanisme Instalasi Flow Rule Bidirectional
-Aturan aliran dipasang secara dua arah pada switch di sepanjang rute untuk memastikan lalu lintas data TCP iperf3 berjalan lancar menggunakan parameter prioritasi:
+**B. Instalasi Aturan Aliran Bidirectional (*Flow Mod*)**
+
+Setelah jalur dihitung, aturan aliran dipasang secara dua arah di setiap switch sepanjang jalur menggunakan pendekatan *delete-then-add* untuk menjamin *idempotency* saat rerouting:
 
 ```python
-# Berkas base_controller.py (maksimal 30 baris)
+# Berkas: base_controller.py (Fungsi _install_unicast_flow)
 def _install_unicast_flow(self, datapath, in_port, out_port, src_mac, dst_mac):
     parser = datapath.ofproto_parser
     ofproto = datapath.ofproto
     match = parser.OFPMatch(in_port=in_port, eth_src=src_mac, eth_dst=dst_mac)
     actions = [parser.OFPActionOutput(out_port)]
     inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
-    
-    # Delete-then-add untuk menjamin idempotency saat rerouting
+    # Hapus flow lama terlebih dahulu (strict) untuk menjamin idempotency
     datapath.send_msg(parser.OFPFlowMod(
         datapath=datapath, cookie=self.FLOW_COOKIE,
-        command=ofproto.OFPFC_DELETE_STRICT, priority=FLOW_PRIORITY,
-        match=match, out_port=ofproto.OFPP_ANY, out_group=ofproto.OFPG_ANY
+        cookie_mask=FLOW_COOKIE_MASK,
+        command=ofproto.OFPFC_DELETE_STRICT,
+        out_port=ofproto.OFPP_ANY, out_group=ofproto.OFPG_ANY,
+        priority=FLOW_PRIORITY, match=match,
     ))
+    # Pasang flow baru
     datapath.send_msg(parser.OFPFlowMod(
         datapath=datapath, cookie=self.FLOW_COOKIE,
-        command=ofproto.OFPFC_ADD, priority=FLOW_PRIORITY,
-        match=match, instructions=inst
+        command=ofproto.OFPFC_ADD,
+        idle_timeout=0, hard_timeout=0,
+        priority=FLOW_PRIORITY, match=match, instructions=inst,
     ))
 ```
+
+Pendekatan *delete-then-add* memastikan bahwa setiap kali terjadi rerouting, flow rule yang sudah tidak relevan dihapus sebelum flow baru dipasang, sehingga tidak terjadi konflik antara rute lama dan rute baru di tabel flow switch.
 
 ---
 
 ## 4.6.3 Kendala Selama Implementasi
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN KENDALA & SOLUSI:**
-> *   Ceritakan secara jujur kegagalan, kendala teknis, atau perilaku anomali yang ditemui selama implementasi dan bagaimana kelompok menyelesaikannya.
-> *   *Kendala 1 (Inkonsistensi State)*: Controller membaca data link weights statis dari JSON sehingga tidak menyadari pembatasan bandwidth dinamis dari Mininet (anomali throttling). Solusi teoretis: mengusulkan monitoring QoS dinamis.
-> *   *Kendala 2 (Packet-In Bottleneck)*: Overload Packet-In awal saat max_pairs=20 memicu latensi tinggi. Solusi: optimasi cache rute atau pre-computation.
-> *   *Kendala 3 (Switch Down Isolation)*: Kegagalan switch memotong koneksi host mutlak sehingga iperf3 error. Solusi: memisahkan analisis data error dengan data sukses agar tidak merusak validitas rata-rata metrik lainnya.
+Selama proses implementasi dan pengujian, tiga kendala teknis signifikan ditemui dan ditangani:
 
-### [TEMPLAT DRAFT KENDALA & SOLUSI]
-Selama proses implementasi dan Benchmark pengujian, beberapa kendala teknis penting diidentifikasi:
-1.  **Masalah Data Tautan Statis vs Dinamis**:
-    *   *Kendala*: Pengendali Bellman-Ford dan Widest Path mengacu pada berkas konfigurasi statis `link_weights.json`. Ketika tautan fisik dibatasi dinamis oleh Mininet pada detik ke-1, pengendali tidak mengetahui penurunan kapasitas tersebut karena tidak adanya dynamic monitoring.
-    *   *Solusi*: Menggunakan pendekatan analitik dalam laporan untuk menafsirkan anomali ini sebagai bias representasi matriks biaya, serta mengusulkan penggunaan modul `OFPPortStatsRequest` sebagai perbaikan di masa depan.
-2.  **Latensi Akumulasi Packet-In**:
-    *   *Kendala*: Pada eksekusi `max_pairs=20`, inisialisasi awal memicu badai Packet-In (*packet-in storm*) saat host-host mulai saling mengirim ARP secara bersamaan. Hal ini memicu antrean kalkulasi rute pada controller dan meningkatkan latensi runtime.
-    *   *Solusi*: Dipasang batas waktu *drop flow* timeout selama 5 detik untuk host yang tidak memiliki rute guna mencegah beban komputasi berulang di sisi pengendali.
-3.  **Isolasi Host pada Skenario Switch Down**:
-    *   *Kendala*: Skenario switch_down pada Ring-5 langsung memutus koneksi host akses secara mutlak, memicu error transmisi iperf3 karena ketiadaan rute fisik.
-    *   *Solusi*: Modifikasi skrip Jupyter Notebook analisis data agar memisahkan baris status `error` ke dataset `df_errors` tersendiri, sehingga nilai throughput rata-rata algoritme pada data sukses (`df_ok`) tidak terdistorsi menjadi nol.
+**Kendala 1: Inkonsistensi Data Tautan Statis vs Dinamis**
+
+Controller Bellman-Ford dan Widest Path membaca bobot tautan dari file statis `link_weights.json`. Ketika Mininet membatasi bandwidth fisik tautan `s1-s2` secara dinamis pada skenario *bandwidth throttle*, kedua controller tidak mengetahui perubahan tersebut karena tidak ada mekanisme pemantauan statistik port secara real-time. Hal ini mengakibatkan keputusan routing yang tidak optimal dan munculnya anomali *bypass throttling* pada Bellman-Ford. Kendala ini ditangani secara analitik dalam laporan: anomali dijadikan temuan ilmiah yang penting, dan usulan implementasi `OFPPortStatsRequest` dimasukkan sebagai rekomendasi pengembangan.
+
+**Kendala 2: Latensi Akumulasi *Packet-In* pada `max_pairs=20`**
+
+Pada eksekusi dengan `max_pairs=20`, inisialisasi awal memicu gelombang *Packet-In* saat 20 pasangan host mulai saling mengirim paket ARP secara bersamaan. Hal ini menciptakan antrean kalkulasi rute di controller yang meningkatkan latensi runtime secara kumulatif. Kendala ini diatasi dengan memasang batas waktu *drop flow* selama 5 detik untuk host yang belum memiliki rute, sehingga mencegah pengiriman ulang ARP berulang yang memperburuk beban controller.
+
+**Kendala 3: Isolasi Host pada Skenario *Switch Down***
+
+Skenario `switch_down` pada kedua topologi langsung memutus koneksi fisik host akses ke jaringan secara total, menghasilkan error iperf3 "JSON payload did not include bits_per_second". Hal ini bukan kegagalan algoritme routing, melainkan akibat dari ketiadaan jalur fisik alternatif menuju host yang terisolasi. Kendala ini diatasi dengan memodifikasi pipeline Jupyter Notebook analisis data untuk memisahkan baris status `error` ke dataset `df_errors` tersendiri, sehingga nilai throughput rata-rata algoritme pada data sukses (`df_ok`) tidak terdistorsi oleh nilai nol dari host yang terisolasi.

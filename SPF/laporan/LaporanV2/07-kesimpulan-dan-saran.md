@@ -1,54 +1,33 @@
 # 4.8 Kesimpulan dan Saran
 
-> [!TIP]
-> **PANDUAN PENULISAN KESIMPULAN DAN SARAN (Skor Maksimal: 5/5):**
-> *   **Panjang**: Total wajib dibatasi maksimal **1 halaman** (sekitar 300–400 kata) agar padat dan fokus pada inti capaian.
-> *   **Bukti data**: Di bagian kesimpulan, jangan hanya menulis kalimat normatif. Sebutkan secara singkat angka empiris dari hasil analisis sebagai bukti tercapainya tujuan.
-> *   **Keselarasan**: Pastikan poin-poin kesimpulan menjawab secara langsung tujuan proyek yang ditulis di bab Pendahuluan (4.3.2).
-
----
-
 ## 4.8.1 Kesimpulan
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN KESIMPULAN:**
-> *   Ulas ketercapaian ketiga tujuan proyek:
->     1.  *Tercapainya tujuan 1*: Suksesnya pembuatan controller modular OS-Ken dengan kelas induk `base_controller.py` dan subclass algoritmik.
->     2.  *Tercapainya tujuan 2*: Terlaksananya testbed 7 skenario pada Mininet dengan 3.900 data point terkumpul.
->     3.  *Tercapainya tujuan 3*: Hasil komparasi kuantitatif dan peringkat komposit (menyebutkan peringkat #1 Bellman-Ford di Ring-5 dan Jellyfish, keunggulan runtime A* di Jellyfish, serta degradasi throughput Widest Path).
+Berdasarkan hasil rancangan, pengujian, dan analisis data kuantitatif terhadap 3.900 baris data eksperimen di bawah 7 skenario kegagalan pada topologi Ring-5 dan Jellyfish, proyek akhir ini menyimpulkan hal-hal berikut:
 
-### [TEMPLAT DRAFT KESIMPULAN]
-Berdasarkan hasil rancangan, pengujian, dan analisis data kuantitatif yang dilakukan, kesimpulan proyek akhir ini adalah:
-1.  **Keberhasilan Implementasi Pengendali Modular**: Arsitektur pengendali SDN SPF berbasis OS-Ken telah sukses dibangun secara modular. Pemisahan kelas induk `base_controller.py` dan subclass algoritmik terbukti mempermudah penggantian algoritme routing (A\*, Bellman-Ford, atau Widest Path) secara instan tanpa perlu memodifikasi kode penanganan pesan OpenFlow dasar.
-2.  **Terlaksananya Testbed Otomatisasi**: Skrip otomatisasi pengujian `run_live_scenarios.py` berhasil mengeksekusi 7 skenario gangguan pada topologi Ring-5 dan Jellyfish secara mandiri, mengumpulkan total 3.900 baris data metrik QoS (throughput, runtime, packet loss, retransmits, hop count, dan recovery delta) secara valid dan siap dianalisis.
-3.  **Peringkat Komposit Algoritme**: Evaluasi kuantitatif menunjukkan bahwa Bellman-Ford menduduki peringkat #1 pada kedua topologi dengan skor komposit 0.8000 karena diuntungkan oleh anomali *bypass throttling* di Ring-5 (mempertahankan 95.03 Mbps) akibat pembacaan bobot statis sebagai cost. Sementara itu, A\* mencatatkan runtime tercepat pada topologi Jellyfish sebesar **0.0749 ms** dengan hop count optimal, sedangkan Widest Path menempati posisi terbawah karena keterbatasan data kapasitas link statis yang memicu degradasi throughput hingga **86.39 Mbps** pada Ring-5.
+1.  **Keberhasilan Implementasi Pengendali Modular**: Arsitektur pengendali SDN SPF berbasis OS-Ken berhasil diimplementasikan secara modular menggunakan pola *template method*, di mana kelas induk `base_controller.py` menangani seluruh mekanisme OpenFlow 1.3 (deteksi topologi LLDP, pembelajaran MAC, instalasi *flow rule*, dan rerouting otomatis), sementara ketiga subclass algoritmik (A\*, Bellman-Ford, Widest Path) hanya mengimplementasikan fungsi `compute_path()`. Modularitas ini memungkinkan penggantian algoritme routing secara instan tanpa mengubah kode penanganan protokol OpenFlow.
+
+2.  **Terlaksananya Testbed Otomatis dengan Data yang Valid**: Skrip otomatisasi pengujian `benchmark_core.py` berhasil mengeksekusi 7 skenario kegagalan secara mandiri pada dua topologi dan tiga algoritme, mengumpulkan total 3.900 baris data metrik QoS yang valid dan siap dianalisis. Dari total tersebut, 3.511 baris (90.0%) tercatat sebagai pengujian sukses dan 389 baris (10.0%) sebagai error yang semuanya berasal dari skenario *switch_down* dan *link_down_during_traffic* dengan penyebab yang telah teridentifikasi.
+
+3.  **Peringkat Komposit dan Rekomendasi Algoritme**: Berdasarkan evaluasi kuantitatif, Bellman-Ford menempati peringkat komposit pertama di kedua topologi (skor 0.8000) terutama karena keuntungan tidak disengaja dari anomali *bypass throttling*. Jika anomali tersebut dikeluarkan dari pertimbangan, A\* menjadi pilihan algoritmik yang paling seimbang: A\* mencatatkan runtime komputasi tercepat pada topologi kompleks Jellyfish (0.0749 ms, lebih cepat 20.5% dari Bellman-Ford) dengan hop count optimal yang identik, menjadikannya pilihan terbaik untuk jaringan SDN produksi yang mengutamakan kecepatan konvergensi. Widest Path menempati posisi terbawah karena ketergantungan kritis pada data kapasitas tautan statis yang tidak mencerminkan kondisi jaringan dinamis.
 
 ---
 
 ## 4.8.2 Keterbatasan
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN KETERBATASAN:**
-> *   Sebutkan secara jujur keterbatasan sistem yang dibangun, misalnya:
->     1.  Ketergantungan controller pada file konfigurasi link statis (`link_weights.json`) untuk mengetahui bandwidth link, sehingga tidak responsif terhadap degradasi link dinamis di data plane.
->     2.  Testbed dibatasi pada lalu lintas data TCP iperf3 tunggal (single-flow) antar-host tanpa adanya background traffic yang padat.
+Proyek akhir ini memiliki beberapa keterbatasan teknis yang perlu diperhatikan dalam menafsirkan hasilnya:
 
-### [TEMPLAT DRAFT KETERBATASAN]
-Proyek akhir ini memiliki beberapa batasan dan keterbatasan teknis:
-1.  **Ketiadaan QoS Monitoring Real-Time**: Pengendali dinamis yang diimplementasikan masih sangat bergantung pada file konfigurasi eksternal statis `link_weights.json` untuk mengetahui bobot link, sehingga controller tidak dapat mendeteksi degradasi kapasitas bandwidth fisik aktual di switch secara real-time.
-2.  **Kondisi Trafik Homogen**: Pengujian ketahanan hanya melibatkan lalu lintas data *single-flow* iperf3 antar satu pasangan host aktif pada satu waktu, sehingga belum mengevaluasi performa algoritme di bawah beban lalu lintas multi-user yang padat (*background network traffic*).
+1.  **Ketiadaan Monitoring Bandwidth Dinamis**: Ketiga pengendali mengandalkan file konfigurasi statis `link_weights.json` untuk mengetahui kapasitas tautan, sehingga tidak dapat mendeteksi perubahan kapasitas aktual di switch secara real-time. Keterbatasan ini secara langsung menyebabkan anomali *bypass throttling* yang mendistorsi peringkat komposit akhir.
+
+2.  **Kondisi Lalu Lintas Homogen**: Pengujian hanya melibatkan lalu lintas data TCP iperf3 *single-flow* antara satu pasangan host pada satu waktu, tanpa *background traffic*. Kondisi ini tidak merepresentasikan beban jaringan nyata dengan banyak aliran data yang bersaing secara bersamaan, sehingga hasil throughput kemungkinan lebih optimis dari kondisi produksi.
+
+3.  **Skala Topologi Terbatas**: Evaluasi hanya mencakup topologi berukuran kecil (5 switch Ring-5 dan 10 switch Jellyfish). Keunggulan runtime A\* berkat mekanisme *pruning* heuristik kemungkinan akan jauh lebih signifikan pada topologi berukuran lebih besar (50-100 switch), namun hal ini belum diverifikasi dalam proyek ini.
 
 ---
 
 ## 4.8.3 Saran
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN SARAN:**
-> *   Usulkan **1–2 ide pengembangan lanjutan** yang konkret untuk mengatasi keterbatasan di atas, misalnya:
->     1.  Mengintegrasikan dynamic link monitoring dengan mengirim request pesan statistik port `OFPPortStatsRequest` ke switch OpenFlow untuk menghitung utilisasi bandwidth real-time.
->     2.  Mengembangkan perutean multipath dinamis menggunakan algoritme Suurballe atau Yen's K-Shortest Path untuk mempersiapkan jalur cadangan (backup path) sebelum terjadi kegagalan tautan (*fast failover*).
+Berdasarkan keterbatasan yang diidentifikasi, berikut adalah dua rekomendasi utama untuk pengembangan proyek serupa di masa depan:
 
-### [TEMPLAT DRAFT SARAN]
-Untuk pengembangan proyek serupa di masa depan, disarankan beberapa saran perbaikan sebagai berikut:
-1.  **Implementasi Pengukuran Bandwidth Dinamis**: Menambahkan modul pemantauan port statistik menggunakan pesan standard OpenFlow `OFPPortStatsRequest` secara berkala (misalnya setiap 2 detik) untuk mengkalkulasi utilisasi bandwidth aktual di switch secara dinamis, sehingga matriks biaya rute diperbarui secara real-time.
-2.  **Penerapan Rerouting Multipath (Fast Failover)**: Mengembangkan modul perutean agar dapat menghitung beberapa rute terpisah secara fisik (*node-disjoint paths*) menggunakan algoritme Suurballe, sehingga switch dapat langsung memindahkan paket ke jalur cadangan saat terjadi gangguan link tanpa harus memicu event Packet-In ke controller.
+1.  **Implementasi Monitoring Bandwidth Dinamis via OpenFlow**: Menambahkan modul pemantauan statistik port menggunakan pesan OpenFlow `OFPPortStatsRequest` yang dikirim secara berkala (misalnya setiap 2-5 detik) ke setiap switch. Data statistik yang diterima (byte terkirim, paket drop, error) dapat digunakan untuk menghitung utilisasi bandwidth aktual dan memperbarui matriks biaya rute secara dinamis di controller. Perubahan ini akan mengeliminasi mismatch antara representasi biaya statis dan kondisi jaringan fisik yang dinamis, khususnya menghapus anomali bypass throttling yang memengaruhi validitas peringkat komposit.
+
+2.  **Pengembangan Perutean Multipath dengan Fast Failover**: Mengembangkan modul controller agar dapat menghitung dan menyimpan beberapa jalur terpisah secara fisik (*node-disjoint paths*) menggunakan algoritme Suurballe atau Yen's K-Shortest sebelum terjadi kegagalan. Dengan menyimpan jalur cadangan (*backup path*) di memori controller, switch dapat langsung mengaktifkan jalur alternatif saat mendeteksi kegagalan tautan melalui OpenFlow *Port-Status*, tanpa harus menunggu siklus deteksi LLDP dan rekalkulasi jalur penuh. Pendekatan *fast failover* ini diperkirakan dapat mengurangi retransmisi TCP pada skenario *link flap* dari rata-rata 17.283 menjadi mendekati nol.

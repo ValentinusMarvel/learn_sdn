@@ -1,114 +1,135 @@
 # 4.5 Metodologi
 
-> [!TIP]
-> **PANDUAN PENULISAN METODOLOGI (Skor Maksimal: 5/5):**
-> *   **Panjang**: Total berkisar antara **2–3 halaman** (sekitar 800–1.200 kata).
-> *   **Kejelasan Alur**: Uraikan alur rancangan pengujian secara runut dari topologi, penyiapan controller, hingga eksekusi testbed.
-> *   **Replikabilitas**: Metodologi harus sangat terperinci sehingga kelompok lain dapat mereplikasi eksperimen dengan hasil yang identik.
-
----
-
 ## 4.5.1 Perancangan Eksperimen
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN PERANCANGAN EKSPERIMEN:**
-> *   Jelaskan kombinasi pengujian yang dilakukan: **2 topologi** (Ring-5, Jellyfish) $\times$ **3 algoritme** (A*, Bellman-Ford, Widest Path) $\times$ **7 skenario kegagalan**.
-> *   Uraikan secara detail ketujuh skenario gangguan yang diuji:
->     1.  *Baseline No Failure* (tanpa gangguan).
->     2.  *Link Down Before Traffic* (mati sebelum traffic dimulai).
->     3.  *Link Down During Traffic* (mati pada detik ke-1 saat traffic).
->     4.  *Link Flap* (mati-hidup berkala).
->     5.  *Switch Down* (kegagalan switch total).
->     6.  *Bandwidth Throttle* (kapasitas drop dari 1000 Mbps ke 10 Mbps).
->     7.  *Random Link Down Jellyfish* (link acak mati, khusus Jellyfish).
-> *   Sebutkan alat dan utilitas pengujian yang diintegrasikan dalam skrip `run_live_scenarios.py` (seperti `iperf3` untuk TCP, `pingall` untuk loss, `tcpdump` untuk PCAP capture).
+Eksperimen dirancang untuk mengevaluasi performa dan ketahanan jaringan SDN secara kuantitatif dengan mengkombinasikan tiga variabel bebas utama: algoritme SPF, topologi jaringan, dan skenario kegagalan. Kombinasi lengkap pengujian adalah: **2 topologi** (Ring-5 dan Jellyfish) x **3 algoritme** (A\*, Bellman-Ford, dan Widest Path) x **7 skenario kegagalan** x **20 pasangan host** x **5 repetisi**, menghasilkan total **3.900 baris data pengujian empiris**.
 
-### [TEMPLAT DRAFT PERANCANGAN EKSPERIMEN]
-Eksperimen dirancang untuk mengevaluasi ketangguhan jaringan dinamis secara kuantitatif. Struktur pengujian memadukan 3 variabel bebas utama:
-1.  **Algoritme SPF Dinamis**: A\*, Bellman-Ford, dan Widest Path.
-2.  **Topologi Jaringan**: Ring-5 dan Jellyfish.
-3.  **Skenario Kegagalan/Gangguan**:
-    *   *Baseline No Failure*: Kondisi kontrol tanpa gangguan untuk mengukur performa puncak jaringan.
-    *   *Link Down Before Traffic*: Memutuskan link utama (s1-s2) sebelum lalu lintas data dimulai. Menguji kemampuan konvergensi statis pengendali.
-    *   *Link Down During Traffic*: Memutuskan link utama (s1-s2) pada detik ke-1 saat transmisi iperf3 berjalan aktif. Menguji *transient loss* dan rerouting dinamis real-time.
-    *   *Link Flap*: Mematikan link s1-s2 pada detik ke-1 dan menghidupkannya kembali pada detik ke-3. Menguji konvergensi rute balik dan kestabilan transportasi data.
-    *   *Switch Down*: Mematikan switch fisik s1 secara total sebelum traffic dimulai. Menguji *node failure recovery* dan dampaknya pada isolasi host.
-    *   *Bandwidth Throttle*: Membatasi bandwidth link s1-s2 dari 1000 Mbps ke 10 Mbps pada detik ke-1. Menguji *link degradation adaptation*.
-    *   *Random Link Down (Jellyfish)*: Memutuskan satu link inter-switch acak pada topologi Jellyfish sebelum pengujian. Menguji adaptabilitas rute pada topologi berderajat tinggi.
+Ketujuh skenario kegagalan yang dirancang adalah sebagai berikut:
 
-Alat pengujian yang diintegrasikan dalam testbed terotomatisasi ini meliputi:
-*   `iperf3`: Menghasilkan lalu lintas data TCP arah maju dan balik selama 5 detik untuk mengukur throughput aktual dan retransmisi.
-*   `pingall`: Mengevaluasi keterhubungan host dan mendeteksi packet loss sebelum skenario traffic dijalankan.
-*   `tcpdump`: Menangkap paket mentah (.pcap) pada antarmuka switch untuk keperluan verifikasi pengalihan rute.
+| No | Nama Skenario | Deskripsi | Tujuan Pengujian |
+|:-:|:---|:---|:---|
+| 1 | *Baseline No Failure* | Kondisi kontrol tanpa gangguan apa pun. | Mengukur performa puncak sebagai acuan (*baseline*). |
+| 2 | *Link Down Before Traffic* | Memutuskan tautan s1-s2 sebelum lalu lintas data dimulai. | Menguji konvergensi statis pengendali dan kemampuan pre-routing. |
+| 3 | *Link Down During Traffic* | Memutuskan tautan s1-s2 pada detik ke-1 saat transmisi iperf3 aktif. | Menguji *transient loss* dan kemampuan rerouting dinamis secara real-time. |
+| 4 | *Link Flap* | Mematikan tautan s1-s2 pada detik ke-1 dan menghidupkannya kembali pada detik ke-3. | Menguji konvergensi rute bolak-balik dan stabilitas transportasi data. |
+| 5 | *Switch Down* | Mematikan switch s1 secara total sebelum lalu lintas dimulai. | Menguji dampak kegagalan node terhadap isolasi host. |
+| 6 | *Bandwidth Throttle* | Membatasi bandwidth tautan s1-s2 dari 100 Mbps menjadi 10 Mbps pada detik ke-1. | Menguji kemampuan algoritme mendeteksi dan menghindari tautan dengan kapasitas terdegradasi. |
+| 7 | *Random Link Down Jellyfish* | Memutuskan satu tautan inter-switch acak pada topologi Jellyfish sebelum pengujian. | Menguji adaptabilitas algoritme pada topologi berderajat tinggi dengan kegagalan tidak terduga. |
+
+Alat pengujian yang diintegrasikan dalam testbed terotomatisasi meliputi:
+
+*   **iperf3** [4]: Menghasilkan lalu lintas data TCP selama 5 detik per pasangan host, mengukur throughput aktual (Mbps) dan jumlah retransmisi TCP.
+*   **pingall**: Mengevaluasi keterhubungan antar-host dan mendeteksi persentase packet loss sebelum sesi iperf3 dijalankan.
+*   **tcpdump**: Menangkap paket mentah dalam format `.pcap` pada antarmuka switch untuk verifikasi pengalihan rute dan analisis paket lebih mendalam.
 
 ---
 
-## 4.5.2 Topologi Jaringan & Parameter Link
+## 4.5.2 Topologi Jaringan dan Parameter Tautan
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN TOPOLOGI & LINK:**
-> *   Jelaskan parameter tautan (link parameters) yang dipasang pada testbed emulasi Mininet.
-> *   Sebutkan kapasitas bandwidth baseline (100 Mbps) dan nilai delay tautan dasar.
-> *   Lampirkan cuplikan skrip inisialisasi topologi Mininet (misalnya bagian pembentukan switch dan penambahan link dengan parameter delay/bandwidth) dari `topo-ring5_lab.py` atau `jellyfish_topo.py`. Batasi cuplikan kode maksimal 30 baris.
+Kedua topologi dibangun menggunakan Mininet [2] dengan parameter tautan yang dikonfigurasi secara konsisten untuk menyamakan kondisi *baseline* antar topologi.
 
-### [TEMPLAT DRAFT DETAIL TOPOLOGI]
-Tautan inter-switch dan tautan akses host dikonfigurasi dengan parameter spesifik pada Mininet untuk mereplikasi kondisi jaringan fisik:
-*   **Bandwidth Link Baseline**: Diatur sebesar 100 Mbps untuk semua tautan fisik guna menyamakan kapasitas dasar.
-*   **Delay Link**: Diatur sebesar 1 milidetik untuk tautan inter-switch untuk mensimulasikan latensi transmisi fisik minimal.
-*   **Tipe Tautan**: Menggunakan tautan berbasis TCLink pada Mininet agar parameter bandwidth dan delay dapat diterapkan secara akurat.
+**Parameter Tautan Inter-Switch:**
 
-Berikut adalah cuplikan kode inisialisasi pembentukan topologi Ring-5 dari berkas `SPF/topo-ring5_lab.py`:
+| Parameter | Nilai |
+|:---|:---:|
+| Bandwidth *baseline* | 100 Mbps |
+| Delay | 2 ms |
+| Tipe Tautan | TCLink (HFSC *enabled*) |
+| Protokol Switch | OpenFlow 1.3 |
+
+Topologi Ring-5 diimplementasikan dalam file `SPF/topo-ring5_lab.py`. Berikut adalah cuplikan kode inisialisasi topologi Ring-5 yang aktual, menampilkan pembentukan switch, host, dan penambahan tautan inter-switch dengan parameter bandwidth dan delay:
 
 ```python
-# CUPLIKAN INI HANYA TEMPLAT, SILAKAN DISESUAIKAN DENGAN KODE AKTUAL
-class Ring5Topology(Topo):
-    def build(self):
-        # Tambahkan 5 Switch
-        switches = []
-        for i in range(1, 6):
-            switches.append(self.addSwitch(f's{i}', dpid=f'{i:016x}'))
-            
-        # Hubungkan Switch membentuk Lingkaran (Ring-5)
-        for i in range(5):
-            self.addLink(switches[i], switches[(i+1)%5], 
-                         cls=TCLink, bw=100, delay='1ms')
-            
-        # Tambahkan 2 Host per Switch (Total 10 Host)
-        for i in range(5):
-            h1 = self.addHost(f'h{2*i+1}', ip=f'10.0.0.{2*i+1}/24')
-            h2 = self.addHost(f'h{2*i+2}', ip=f'10.0.0.{2*i+2}/24')
-            self.addLink(h1, switches[i], cls=TCLink, bw=100)
-            self.addLink(h2, switches[i], cls=TCLink, bw=100)
+# Berkas: SPF/topo-ring5_lab.py (Kelas Ring5Topo, 40 baris kritis)
+class Ring5Topo(Topo):
+    """5-switch ring topology with 10 hosts (2 per switch)."""
+
+    def addSwitch(self, name, **opts):
+        kwargs = {"protocols": "OpenFlow13"}
+        kwargs.update(opts)
+        return super(Ring5Topo, self).addSwitch(name, **kwargs)
+
+    def __init__(self):
+        Topo.__init__(self)
+        # Tambahkan 10 Host (2 per Switch)
+        h1  = self.addHost("h1",  ip="10.0.0.1/24")
+        h2  = self.addHost("h2",  ip="10.0.0.2/24")
+        h3  = self.addHost("h3",  ip="10.0.0.3/24")
+        h4  = self.addHost("h4",  ip="10.0.0.4/24")
+        h5  = self.addHost("h5",  ip="10.0.0.5/24")
+        # ... (h6 s.d. h10 serupa, dipersingkat)
+        # Tambahkan 5 Switch (OpenFlow 1.3)
+        s1 = self.addSwitch("s1")
+        s2 = self.addSwitch("s2")
+        s3 = self.addSwitch("s3")
+        s4 = self.addSwitch("s4")
+        s5 = self.addSwitch("s5")
+        # Koneksi Host ke Switch (port akses)
+        self.addLink(s1, h1, port1=1, port2=1)
+        self.addLink(s1, h2, port1=2, port2=1)
+        self.addLink(s2, h3, port1=1, port2=1)
+        # ... (s3, s4, s5 serupa)
+        # Tautan Inter-Switch Membentuk Lingkaran (Ring)
+        # Semua tautan: 100 Mbps, 2ms delay, HFSC enabled
+        self.addLink(s1, s2, port1=3, port2=3, bw=100, delay="2ms", use_hfsc=True)
+        self.addLink(s2, s3, port1=4, port2=3, bw=100, delay="2ms", use_hfsc=True)
+        self.addLink(s3, s4, port1=4, port2=3, bw=100, delay="2ms", use_hfsc=True)
+        self.addLink(s4, s5, port1=4, port2=3, bw=100, delay="2ms", use_hfsc=True)
+        self.addLink(s5, s1, port1=4, port2=4, bw=100, delay="2ms", use_hfsc=True)
+```
+
+Diagram topologi Ring-5 yang dihasilkan dari kode di atas adalah sebagai berikut:
+
+```
+        h1   h3   h5   h7   h9
+        |    |    |    |    |
+       s1---s2---s3---s4---s5
+        |    |    |    |    |
+        h2   h4   h6   h8   h10
+        \_______________________/
+              (ring: s5-s1)
 ```
 
 ---
 
 ## 4.5.3 Prosedur Pengumpulan Data
 
-> [!IMPORTANT]
-> **PETUNJUK PENULISAN PROSEDUR PENGUMPULAN DATA:**
-> *   Uraikan langkah-langkah eksperimen secara berurutan (*step-by-step*) dari awal hingga akhir agar pembaca dapat mereplikasi pengujian secara mandiri.
-> *   Sertakan skema perintah CLI untuk menjalankan skrip testbed `run_live_scenarios.py`.
-> *   Jelaskan bagaimana proses ekstraksi log output JSONL dikonversi menjadi CSV dan dibersihkan untuk siap dimuat oleh Jupyter Notebook.
+Prosedur eksekusi pengujian otomatis dan pengumpulan data dilakukan melalui tahapan yang berurutan dan dapat direplikasi oleh pihak lain:
 
-### [TEMPLAT DRAFT PROSEDUR]
-Prosedur eksekusi pengujian otomatis dan pengumpulan data dilakukan melalui tahapan-tahapan berikut:
+**Langkah 1: Persiapan Lingkungan**
 
-1.  **Persiapan Lingkungan**: Menjalankan kontainer Docker yang telah diinstalasi Mininet dan OS-Ken Controller.
-2.  **Inisialisasi Testbed**: Menjalankan skrip `run_live_scenarios.py` untuk mengotomatisasi inisialisasi topologi, menjalankan pengendali dinamis, memicu event kegagalan, dan mencatat data performa. Perintah eksekusi pengujian:
-    ```bash
-    python3 SPF/testing-code/run_live_scenarios.py \
-      --topologies ring5 jellyfish \
-      --algorithms astar bellman_ford widest_path \
-      --max-pairs 20 \
-      --repetitions 5 \
-      --output SPF/csv/benchmark-results.jsonl
-    ```
-3.  **Pengumpulan Log Mentah**: Hasil eksekusi setiap repetisi pasangan host dicatat dalam format JSON Lines (JSONL) untuk menjaga integritas data jika eksekusi terputus di tengah jalan.
-4.  **Konversi dan Pembersihan Data**: Mengonversi berkas log JSONL mentah menjadi format tabel CSV terstruktur menggunakan modul Python:
-    ```bash
-    python3 SPF/benchmark_jsonl_to_csv.py \
-      SPF/csv/benchmark-results.jsonl \
-      SPF/csv/benchmark-results.csv
-    ```
-5.  **Validasi Data**: Membuka Jupyter Notebook untuk melakukan pengecekan data hilang (*missing values*) pada kolom utama dan memastikan total 3.900 baris data terekam lengkap tanpa duplikasi.
+Jalankan kontainer Docker yang telah diinstalasi Mininet, OS-Ken, dan semua dependensi Python yang diperlukan. Repositori `learn_sdn` harus sudah di-*clone* di dalam kontainer.
+
+**Langkah 2: Eksekusi Testbed Otomatis**
+
+Jalankan skrip `benchmark_core.py` untuk mengotomatisasi inisialisasi topologi, aktivasi pengendali, pemicuan skenario kegagalan, dan pencatatan data performa. Skrip ini menangani semua langkah secara mandiri:
+
+```bash
+# Contoh eksekusi untuk topologi Ring-5 dengan Bellman-Ford
+python3 SPF/benchmark_core.py \
+  --topo ring5 \
+  --controller bellman_ford \
+  --max-pairs 20 \
+  --repetitions 5 \
+  --output SPF/csv/ring5-scenarios.jsonl
+```
+
+Proses ini diulang untuk setiap kombinasi `{topo: ring5, jellyfish}` dan `{controller: astar, bellman_ford, widest_path}`.
+
+**Langkah 3: Pengumpulan Log Mentah**
+
+Hasil eksekusi setiap repetisi pasangan host dicatat dalam format JSON Lines (JSONL) ke file `ring5-scenarios.jsonl` dan `jellyfish-scenarios.jsonl`. Format JSONL dipilih karena tahan terhadap interupsi; jika eksekusi terhenti di tengah jalan, data yang sudah terkumpul tetap valid dan tidak rusak.
+
+**Langkah 4: Konversi ke Format CSV**
+
+File log JSONL dikonversi menjadi tabel CSV terstruktur menggunakan modul konversi khusus:
+
+```bash
+python3 SPF/benchmark_jsonl_to_csv.py \
+  SPF/csv/ring5-scenarios.jsonl \
+  SPF/csv/ring5-scenarios.csv
+```
+
+**Langkah 5: Validasi dan Analisis Data**
+
+Jupyter Notebook `analysis/plot_results_executed_final.ipynb` digunakan untuk melakukan pengecekan data hilang (*missing values*), memisahkan baris status `error` dari data sukses, memastikan total 3.900 baris data terekam lengkap, dan mengeksekusi seluruh pipeline analisis statistik serta visualisasi grafis.

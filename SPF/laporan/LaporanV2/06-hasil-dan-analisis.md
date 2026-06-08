@@ -1,102 +1,117 @@
 # 4.7 Hasil dan Analisis
 
-> [!TIP]
-> **PANDUAN PENULISAN HASIL DAN ANALISIS (Skor Maksimal: 5/5):**
-> *   **Panjang**: Berkisar antara **3–4 halaman** (sekitar 1.200–1.800 kata).
-> *   **Integrasi Gambar**: Gunakan path relatif (`../../img/analysis/`) agar gambar visualisasi grafis ter-render dengan benar. Pastikan setiap gambar memiliki nomor gambar, judul, dan keterangan analisis di bawahnya.
-> *   **Akurasi Data**: Gunakan data kuantitatif eksak dari keluaran Jupyter Notebook final untuk topologi Ring-5 dan Jellyfish (meliputi throughput, runtime, hop count, success rate, dan recovery delta).
+## 4.7.1 Presentasi Data
+
+Seluruh visualisasi dan tabel data di bawah ini dihasilkan secara otomatis oleh Jupyter Notebook `plot_results_executed_final.ipynb` yang dieksekusi dengan parameter `max_pairs=20` dan `repetitions=5`.
+
+### Ringkasan Metrik Rata-Rata Keseluruhan per Algoritme dan Topologi
+
+Tabel berikut menyajikan ringkasan rata-rata metrik utama dari seluruh skenario pengujian yang berhasil (`status=success`):
+
+| Topologi | Algoritme | Mean Throughput (Mbps) | Mean Runtime (ms) | Mean Hop Count | Success Rate | Skor Komposit |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **Jellyfish** | Bellman-Ford | 93.79 | 0.0942 | 1.75 | 89.43% | **0.8000** |
+| | A\* | 93.35 | 0.0749 | 1.75 | 89.29% | 0.7046 |
+| | Widest Path | 91.49 | 0.0846 | 2.25 | 89.29% | 0.0991 |
+| **Ring-5** | Bellman-Ford | 95.03 | 0.0517 | 1.45 | 90.83% | **0.8000** |
+| | A\* | 88.04 | 0.0526 | 1.45 | 90.83% | 0.2897 |
+| | Widest Path | 86.39 | 0.0909 | 1.65 | 90.83% | 0.0000 |
+
+*Catatan: Skor komposit dihitung menggunakan normalisasi Min-Max dengan bobot: Throughput (40%), Runtime (20%), Success Rate (20%), dan Stabilitas Throughput/Std (20%).*
 
 ---
 
-## 4.7.1 Presentasi Data
-
-> [!IMPORTANT]
-> **PETUNJUK PRESENTASI DATA:**
-> *   Sajikan tabel rangkuman rata-rata metrik (seperti throughput, runtime, dan hop count) untuk A*, Bellman-Ford, dan Widest Path pada kedua topologi.
-> *   Tampilkan visualisasi grafis utama yang diekspor oleh notebook:
->     1.  *Throughput rata-rata per skenario* (throughput_by_topology.png)
->     2.  *Distribusi runtime komputasi rute* (runtime_distribution.png)
->     3.  *Ketahanan terhadap kegagalan* (failure_recovery_analysis.png)
->     4.  *TCP Retransmissions* (retransmits_analysis.png)
->     5.  *Rata-rata hop count* (hop_count_comparison.png)
-
-### [TEMPLAT DRAFT PRESENTASI DATA]
-
-Berikut adalah visualisasi rata-rata throughput TCP yang diperoleh dari hasil emulasi iperf3 pada kedua topologi di bawah seluruh skenario gangguan:
+### Gambar 4.1: Perbandingan Throughput Rata-Rata per Skenario dan Topologi
 
 ![Rata-Rata Throughput per Skenario](../../img/analysis/throughput_by_topology.png)
-*Gambar 4.1: Perbandingan Throughput Rata-Rata (Mbps) per Topologi dan Skenario Gangguan*
 
-Distribusi waktu komputasi jalur (*runtime*) dalam skala logaritma disajikan pada Gambar 4.2:
+*Gambar 4.1: Perbandingan throughput rata-rata (Mbps) ketiga algoritme pada setiap skenario kegagalan untuk topologi Jellyfish (kiri) dan Ring-5 (kanan). Sumbu-x menunjukkan nama skenario dan sumbu-y menunjukkan throughput dalam Mbps.*
+
+**Interpretasi:** Pada kondisi *baseline* (tanpa gangguan), ketiga algoritme menunjukkan performa throughput yang hampir identik di kedua topologi, berkisar antara 94.90 hingga 95.28 Mbps, mendekati batas kapasitas tautan 100 Mbps pada emulasi Mininet. Anomali paling mencolok terjadi pada skenario *Bandwidth Throttle* di Ring-5: A\* turun ke **56.70 Mbps** dan Widest Path turun drastis ke **48.11 Mbps**, sementara Bellman-Ford tetap stabil di **94.95 Mbps**. Pada topologi Jellyfish, dampak *bandwidth throttle* lebih kecil karena tersedia lebih banyak jalur alternatif, dengan Widest Path hanya turun ke **82.37 Mbps**.
+
+---
+
+### Gambar 4.2: Distribusi Runtime Komputasi Jalur
 
 ![Distribusi Runtime Komputasi Jalur](../../img/analysis/runtime_distribution.png)
-*Gambar 4.2: Distribusi Runtime Komputasi Jalur (ms) per Algoritme dan Topologi*
 
-Untuk mengevaluasi dampak transient loss saat terjadi pemutusan link di tengah-tengah transmisi, Gambar 4.3 menampilkan rata-rata throughput pada fase baseline, pre-failure, dan during-failure:
+*Gambar 4.2: Distribusi runtime komputasi jalur (ms) dalam skala logaritma menggunakan *box plot*. Setiap kotak mewakili interkuartil (IQR) distribusi runtime, dengan titik-titik menunjukkan pencilan (outlier).*
+
+**Interpretasi:** A\* memiliki median runtime paling rendah dan distribusi paling sempit pada topologi Jellyfish (rata-rata 0.0749 ms), menunjukkan konsistensi tinggi dalam kecepatan komputasi. Bellman-Ford lebih kompetitif di Ring-5 (0.0517 ms vs A\* 0.0526 ms) karena jumlah switch yang kecil (hanya 5) membatasi jumlah iterasi relaksasi. Widest Path memiliki *outlier* runtime yang signifikan, terutama pada skenario *Link Down During Traffic* di Ring-5 (0.2700 ms), menandakan bahwa perubahan topologi saat transmisi aktif memperlambat re-komputasi jalur pada algoritme berbasis *max-heap* ini.
+
+---
+
+### Gambar 4.3: Analisis Ketahanan terhadap Kegagalan (*Failure Recovery*)
 
 ![Dampak Kegagalan terhadap Throughput](../../img/analysis/failure_recovery_analysis.png)
-*Gambar 4.3: Analisis Ketahanan Throughput Delta pada Fase Transien Kegagalan*
 
-Selain itu, stabilitas lapisan transportasi dinilai melalui jumlah retransmisi TCP (Gambar 4.4) dan efisiensi rute dinilai melalui hop count rata-rata (Gambar 4.5):
+*Gambar 4.3: Rata-rata throughput pada tiga fase pengujian: *Baseline* (tanpa gangguan), *Pre-Failure* (sebelum kegagalan), dan *During-Failure* (saat kegagalan). Perbedaan tinggi bar menunjukkan besar delta throughput akibat kegagalan.*
+
+**Interpretasi:** Perbandingan delta throughput antar-fase mengungkap perbedaan resiliensi yang signifikan antar-algoritme:
+
+| Topologi | Algoritme | Delta *During-Failure* | Delta *Pre-Failure* |
+| :--- | :--- | :---: | :---: |
+| **Jellyfish** | A\* | -6.73% | +0.10% |
+| | Bellman-Ford | -5.10% | -0.05% |
+| | Widest Path | -6.24% | -3.94% |
+| **Ring-5** | A\* | -0.37% | -16.59% |
+| | Bellman-Ford | +0.14% | +0.19% |
+| | Widest Path | -0.61% | -20.23% |
+
+Bellman-Ford menunjukkan resiliensi terbaik di Ring-5, bahkan mencatatkan delta positif (+0.14%) pada fase *during* karena perilaku *bypass throttling*. A\* dan Widest Path mengalami penurunan besar pada fase *pre* di Ring-5 (masing-masing -16.59% dan -20.23%) akibat skenario *bandwidth throttle* yang membatasi link utama `s1-s2`.
+
+---
+
+### Gambar 4.4: Analisis Retransmisi TCP
 
 ![TCP Retransmissions](../../img/analysis/retransmits_analysis.png)
-*Gambar 4.4: Total Retransmisi TCP per Algoritme dan Skenario Gangguan*
+
+*Gambar 4.4: Total retransmisi TCP per algoritme dan skenario kegagalan pada masing-masing topologi. Skenario dengan nilai tinggi menunjukkan instabilitas koneksi yang lebih besar.*
+
+**Interpretasi:** Skenario *Link Flap* menghasilkan retransmisi TCP tertinggi pada kedua topologi. Pada Jellyfish, A\* mencatatkan hingga **17.283 retransmisi** dan Widest Path mencapai **16.231 retransmisi**, jauh melebihi skenario lainnya. Penyebabnya adalah siklus *link mati dan hidup kembali* yang memicu pembersihan (*flush*) dan pemasangan ulang *flow rule* secara berulang, selama jeda konvergensi mana paket TCP yang aktif di-*drop* dan harus di-*retransmit*. Sebaliknya, skenario *Switch Down* hanya menghasilkan 0-4 retransmisi karena koneksi langsung terputus total tanpa sempat melakukan retransmisi, dan iperf3 segera melaporkan kegagalan.
+
+---
+
+### Gambar 4.5: Perbandingan Hop Count Rata-Rata
 
 ![Hop Count Comparison](../../img/analysis/hop_count_comparison.png)
-*Gambar 4.5: Rata-Rata Hop Count per Algoritme dan Topologi*
 
-Rangkuman metrik komparatif keseluruhan disajikan dalam tabel pivot di bawah ini:
+*Gambar 4.5: Rata-rata hop count per algoritme dan topologi. Bar yang lebih tinggi menunjukkan jalur yang dipilih lebih panjang (lebih banyak switch yang dilewati).*
 
-| Topologi | Algoritme | Mean Throughput (Mbps) | Mean Runtime (ms) | Success Rate | Hop Count (Rata-rata) |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **Jellyfish** | A\* | 93.35 | 0.0749 | 89.29% | 1.75 |
-| | Bellman-Ford | 93.79 | 0.0942 | 89.43% | 1.75 |
-| | Widest Path | 91.49 | 0.0846 | 89.29% | 2.25 |
-| **Ring-5** | A\* | 88.04 | 0.0526 | 90.83% | 1.45 |
-| | Bellman-Ford | 95.03 | 0.0517 | 90.83% | 1.45 |
-| | Widest Path | 86.39 | 0.0909 | 90.83% | 1.65 |
+**Interpretasi:** A\* dan Bellman-Ford menghasilkan rata-rata hop count yang identik: **1.75 pada Jellyfish** dan **1.45 pada Ring-5**, karena keduanya berorientasi meminimalkan jarak rute. Widest Path secara konsisten mencatatkan hop count lebih tinggi: **2.25 pada Jellyfish** dan **1.65 pada Ring-5**. Perbedaan ini selaras dengan tujuan Widest Path yang mengoptimalkan *bottleneck bandwidth*, bukan meminimalkan jumlah hop, sehingga sering memilih jalur memutar yang lebih panjang asalkan memiliki kapasitas tautan minimum yang lebih besar.
 
 ---
 
 ## 4.7.2 Analisis Perbandingan
 
-> [!IMPORTANT]
-> **PETUNJUK ANALISIS PERBANDINGAN:**
-> *   Bahas perbedaan hasil performa antar-algoritme dan hubungkan dengan teori serta kompleksitas waktunya.
-> *   **Perbandingan Throughput**: Jelaskan performa throughput pada skenario baseline (semua algo stabil di ~95 Mbps mendekati kapasitas link 100 Mbps).
-> *   **Perbandingan Runtime**: Bahas mengapa A* secara konsisten paling cepat pada topologi kompleks Jellyfish (0.0749 ms vs Bellman-Ford 0.0942 ms) berkat pruning heuristik, sedangkan di Ring-5 yang sangat kecil Bellman-Ford bersaing ketat (0.0517 ms vs A* 0.0526 ms) karena overhead kalkulasi heuristik A* melampaui relaksasi sederhana Ring-5.
-> *   **Perbandingan Hop Count**: Jelaskan mengapa Widest Path mencatatkan hop count lebih tinggi (2.25 pada Jellyfish, 1.65 pada Ring-5) dibanding A*/Bellman-Ford (1.75 dan 1.45) karena Widest Path mengoptimalkan kapasitas bottleneck bukan meminimalkan jarak lompatan.
+Analisis komparatif dari data eksperimen mengungkap korelasi yang kuat antara teori algoritmik dan performa jaringan aktual:
 
-### [TEMPLAT DRAFT ANALISIS KOMPARATIF]
-Analisis komparatif dari data eksperimen mengungkapkan korelasi yang kuat antara teori algoritmik dan performa jaringan aktual:
+**1. Evaluasi Throughput Jaringan**
 
-1.  **Evaluasi Throughput Jaringan**:
-    Pada kondisi baseline tanpa gangguan, seluruh algoritme menunjukkan kinerja throughput TCP yang optimal, yaitu berkisar antara **94.90–95.51 Mbps** di kedua topologi. Hal ini membuktikan bahwa bidang kontrol OpenFlow 1.3 dapat melayani instalasi flow aturan aliran dengan baik tanpa mendegradasi kecepatan link fisik emulasi 100 Mbps.
-2.  **Efisiensi Waktu Komputasi (Runtime)**:
-    Sesuai dengan teori kompleksitas waktu, algoritme A\* menunjukkan keunggulan runtime yang jelas pada topologi Jellyfish dengan rata-rata **0.0749 ms** dibandingkan Bellman-Ford (**0.0942 ms**). Perilaku ini terjadi karena A\* menggunakan heuristik estimasi jarak *reverse-BFS* untuk memandu arah pencarian dan memotong eksplorasi node graf yang tidak relevan. Menariknya, pada topologi Ring-5 yang sangat kecil (hanya 5 switch), Bellman-Ford mencatatkan runtime rata-rata yang sedikit lebih cepat (**0.0517 ms**) daripada A\* (**0.0526 ms**). Hal ini dapat dijelaskan karena overhead komputasi fungsi heuristik awal A\* di Python lebih besar daripada biaya komputasi relaksasi rute linear sederhana Bellman-Ford pada graf berukuran kecil.
-3.  **Efisiensi Jalur (Hop Count)**:
-    A\* dan Bellman-Ford secara konsisten menghasilkan rata-rata hop count yang identik (1.75 pada Jellyfish dan 1.45 pada Ring-5) karena keduanya berorientasi meminimalkan jarak rute secara mutlak. Sebaliknya, Widest Path mencatatkan hop count yang lebih tinggi (2.25 pada Jellyfish dan 1.65 pada Ring-5). Hal ini selaras dengan karakteristik Widest Path yang memodifikasi relaksasi untuk memaksimalkan kapasitas tautan terkecil (*bottleneck bandwidth*), sehingga sering kali memilih jalur memutar yang lebih panjang asalkan memiliki kapasitas link minimal yang lebih besar.
+Pada kondisi *baseline* tanpa gangguan, ketiga algoritme menunjukkan throughput yang hampir identik (94.90-95.28 Mbps) karena semuanya menemukan jalur terpendek yang setara pada topologi tanpa hambatan. Perbedaan throughput yang signifikan baru muncul pada skenario *bandwidth throttle*, di mana kemampuan (atau ketidakmampuan) algoritme menghindari tautan yang terdegradasi menjadi faktor penentu utama. Bellman-Ford unggul secara kebetulan karena penggunaan bandwidth sebagai *cost*, sedangkan A\* dan Widest Path yang beroperasi berdasarkan data statis mengalami degradasi signifikan.
+
+**2. Efisiensi Waktu Komputasi (Runtime)**
+
+Sesuai dengan teori kompleksitas waktu, A\* menunjukkan keunggulan runtime yang jelas pada topologi kompleks Jellyfish (0.0749 ms vs Bellman-Ford 0.0942 ms, selisih 25.7%). Hal ini terjadi karena heuristik *reverse-BFS* A\* secara efektif memangkas eksplorasi node yang tidak relevan pada graf berukuran lebih besar (10 switch Jellyfish). Menariknya, pada topologi Ring-5 yang kecil (5 switch), Bellman-Ford sedikit lebih cepat (0.0517 ms vs A\* 0.0526 ms), karena overhead komputasi heuristik awal A\* di Python melebihi biaya relaksasi sederhana Bellman-Ford pada graf sangat kecil.
+
+**3. Efisiensi Jalur (Hop Count)**
+
+A\* dan Bellman-Ford secara konsisten menemukan rute terpendek dengan hop count identik (1.75 pada Jellyfish, 1.45 pada Ring-5). Widest Path yang mengoptimalkan kapasitas *bottleneck* secara inheren menghasilkan hop count lebih tinggi (2.25 dan 1.65), mengorbankan efisiensi jarak demi optimasi bandwidth. Hop count yang lebih tinggi pada Widest Path juga berarti lebih banyak *flow entries* yang harus dipasang di switch, sedikit meningkatkan konsumsi memori TCAM.
 
 ---
 
 ## 4.7.3 Pembahasan Temuan
 
-> [!IMPORTANT]
-> **PETUNJUK PEMBAHASAN TEMUAN & ANOMALI:**
-> *   Bahas temuan anomali menarik yang tidak terduga dari eksperimen:
->     1.  **Anomali Throttling Ring-5**: Bellman-Ford tetap stabil di 95.03 Mbps sedangkan A* dan Widest Path drop ke 56.70 Mbps dan 86.39 Mbps. Jelaskan bias *bypass throttling* akibat representasi bandwidth statis sebagai cost pada Bellman-Ford.
->     2.  **Keterbatasan Switch Down**: Success rate jatuh ke 45% (error rate 55%) pada skenario switch_down di kedua topologi. Jelaskan isolasi host fisik karena hilangnya node switch akses.
->     3.  **TCP Retransmissions pada Link Flap**: Skenario link_flap memicu retransmisi TCP tertinggi karena osilasi rute dinamis (A* mencatatkan hingga 17.283 retransmisi di Jellyfish).
+Eksperimen mengungkap tiga temuan anomali yang secara akademis penting untuk dianalisis:
 
-### [TEMPLAT DRAFT PEMBAHASAN ANOMALI]
-Hasil eksperimen mengungkap beberapa anomali penting yang perlu dikritisi secara akademis:
+**Temuan 1: Anomali Bypass Throttling Bellman-Ford di Ring-5**
 
-1.  **Bias Bypass Throttling Bellman-Ford di Ring-5**:
-    *   *Temuan*: Pada skenario Bandwidth Throttle di Ring-5, Bellman-Ford mencatatkan throughput konstan **95.03 Mbps**, sementara A\* turun tajam ke **56.70 Mbps** dan Widest Path turun ke **86.39 Mbps** (rata-rata keseluruhan **86.39 Mbps** untuk Widest Path).
-    *   *Analisis*: Pengendali Bellman-Ford membaca kapasitas bandwidth dari `link_weights.json` dan secara tidak sengaja memperlakukannya sebagai *biaya jalur* (cost). Akibatnya, link dengan bandwidth 1000 Mbps dianggap memiliki cost 1000 (sangat mahal), sehingga Bellman-Ford secara alami menghindari link `s1-s2` tersebut. Link `s1-s2` inilah yang justru di-throttle oleh Mininet menjadi 10 Mbps. Karena Bellman-Ford sudah menghindari link tersebut sejak awal, kinerjanya tidak terpengaruh oleh throttling. Sebaliknya, A\* dan Widest Path yang memilih rute terpendek dan rute terlebar statis melewati link `s1-s2` mengalami degradasi throughput yang parah karena link tersebut dibatasi kapasitasnya secara dinamis tanpa diketahui oleh controller. Hal ini menunjukkan bahwa pemetaan bobot link (cost vs kapasitas) sangat krusial dalam desain perutean SDN.
-2.  **Isolasi Node pada Kegagalan Switch Down**:
-    *   *Temuan*: Skenario `switch_down` menghasilkan tingkat kesuksesan (*success rate*) yang rendah sebesar **45%** (dan tingkat error **55%**) pada semua algoritme di kedua topologi.
-    *   *Analisis*: Ketika switch s1 dimatikan, semua host yang terhubung langsung ke switch s1 (host h1 dan h2 pada Ring-5) kehilangan koneksi fisik ke jaringan secara total. Kegagalan iperf3 pada skenario ini bukan disebabkan oleh kesalahan algoritme perutean dalam mencari jalan, melainkan karena ketiadaan jalur fisik alternatif akibat host terisolasi dari infrastruktur.
-3.  **Tingginya Retransmisi TCP pada Link Flap**:
-    *   *Temuan*: Skenario fluktuasi tautan (`link_flap`) memicu peningkatan retransmisi TCP yang sangat signifikan, mencapai puncaknya pada algoritme A\* sebanyak **17.283 retransmisi** di topologi Jellyfish.
-    *   *Analisis*: Siklus dinamis link mati dan hidup kembali memicu pembersihan (*flush*) flow rule secara berulang oleh pengendali. Selama jeda waktu konvergensi dan pemasangan rute baru, paket TCP yang sedang dikirim aktif mengalami kehilangan (*drop*), memaksa protokol transport untuk melakukan retransmisi secara masif guna menjaga keutuhan data.
+Pada skenario *Bandwidth Throttle* di Ring-5, Bellman-Ford mencatatkan throughput stabil sebesar **94.95 Mbps**, sementara A\* turun ke **56.70 Mbps** dan Widest Path turun ke **48.11 Mbps**. Akar penyebabnya adalah desain pengendali Bellman-Ford yang membaca nilai kapasitas bandwidth dari `link_weights.json` dan memperlakukannya sebagai *biaya jalur* (cost) secara langsung. Akibatnya, tautan `s1-s2` dengan bandwidth terdaftar 1000 Mbps memiliki cost 1000 (sangat mahal), sedangkan jalur alternatif `s1-s5-s4-s3-s2` memiliki total cost hanya 103. Bellman-Ford secara otomatis memilih jalur alternatif yang lebih murah ini, yang secara tidak sengaja menghindari tautan yang sedang dibatasi fisik oleh Mininet menjadi 10 Mbps. Perilaku ini menunjukkan bahwa **pemilihan representasi bobot link** (cost vs kapasitas) pada algoritme perutean memiliki dampak yang jauh melampaui sekadar pilihan teknis, dan dapat menghasilkan performa yang sangat berbeda dalam kondisi kegagalan tertentu.
+
+**Temuan 2: Isolasi Node pada Kegagalan Switch Down**
+
+Skenario `switch_down` menghasilkan *success rate* yang rendah sebesar **45% (45/100 pengujian)** untuk semua algoritme di kedua topologi, tanpa perbedaan antar-algoritme. Hal ini membuktikan bahwa kegagalan tersebut bukan disebabkan oleh kekurangan algoritme routing, melainkan oleh keterbatasan fisik topologi: ketika switch dimatikan, semua host yang terhubung langsung ke switch tersebut kehilangan koneksi fisik ke jaringan secara total. Tidak ada jalur fisik alternatif yang dapat menghubungkan host-host tersebut, sehingga iperf3 gagal sepenuhnya. Temuan ini menegaskan bahwa skenario *switch down* lebih menguji **ketahanan topologi** terhadap kegagalan node daripada kualitas algoritme routing itu sendiri.
+
+**Temuan 3: Tingginya Retransmisi TCP pada Link Flap**
+
+Skenario *link flap* memicu peningkatan retransmisi TCP yang sangat signifikan, mencapai **17.283 retransmisi** pada A\* di topologi Jellyfish. Pola ini terjadi karena siklus *link mati-hidup* memaksa pengendali melakukan dua siklus rerouting penuh dalam satu sesi iperf3 (5 detik): pertama saat link mati (detik ke-1), dan kedua saat link hidup kembali (detik ke-3). Selama setiap jeda konvergensi, paket TCP yang sudah dalam perjalanan di-*drop* oleh switch karena tidak ada flow rule yang valid, memaksa protokol TCP untuk melakukan retransmisi masif. Temuan ini menegaskan pentingnya meminimalkan waktu konvergensi pengendali, terutama untuk aplikasi yang sensitif terhadap keterlambatan seperti streaming video atau layanan real-time.
