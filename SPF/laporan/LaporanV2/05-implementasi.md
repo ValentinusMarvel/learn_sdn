@@ -1,6 +1,6 @@
-# 4.6 Implementasi
+# BAB IV IMPLEMENTASI
 
-## 4.6.1 Integrasi dengan Repositori
+## 4.1 Integrasi dengan Repositori
 
 Implementasi perutean SPF terintegrasi penuh dengan struktur modular repositori `learn_sdn` di GitHub ([github.com/ValentinusMarvel/learn_sdn](https://github.com/ValentinusMarvel/learn_sdn)). Desain arsitektur mengikuti pola *template method*, di mana kelas induk menangani seluruh logika OpenFlow dan kelas anak hanya perlu mengimplementasikan fungsi `compute_path()`.
 
@@ -55,7 +55,7 @@ graph TD
 
 ---
 
-## 4.6.2 Modifikasi yang Dilakukan
+## 4.2 Modifikasi yang Dilakukan
 
 Tiga mekanisme kritis diimplementasikan di dalam `base_controller.py` untuk mendukung tujuan proyek:
 
@@ -126,7 +126,7 @@ Pendekatan *delete-then-add* memastikan bahwa setiap kali terjadi rerouting, flo
 
 ---
 
-## 4.6.3 Kendala Selama Implementasi
+## 4.3 Kendala Selama Implementasi
 
 Selama proses implementasi dan pengujian, tiga kendala teknis signifikan ditemui dan ditangani:
 

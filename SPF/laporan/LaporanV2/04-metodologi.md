@@ -1,6 +1,6 @@
-# 4.5 Metodologi
+# BAB III METODOLOGI
 
-## 4.5.1 Perancangan Eksperimen
+## 3.1 Perancangan Eksperimen
 
 Eksperimen dirancang untuk mengevaluasi performa dan ketahanan jaringan SDN secara kuantitatif dengan mengkombinasikan tiga variabel bebas utama: algoritme SPF, topologi jaringan, dan skenario kegagalan. Kombinasi lengkap pengujian adalah: **2 topologi** (Ring-5 dan Jellyfish) x **3 algoritme** (A\*, Bellman-Ford, dan Widest Path) x **7 skenario kegagalan** x **20 pasangan host** x **5 repetisi**, menghasilkan total **3.900 baris data pengujian empiris**.
 
@@ -24,7 +24,7 @@ Alat pengujian yang diintegrasikan dalam testbed terotomatisasi meliputi:
 
 ---
 
-## 4.5.2 Topologi Jaringan dan Parameter Tautan
+## 3.2 Topologi Jaringan dan Parameter Tautan
 
 Kedua topologi dibangun menggunakan Mininet [2] dengan parameter tautan yang dikonfigurasi secara konsisten untuk menyamakan kondisi *baseline* antar topologi.
 
@@ -92,7 +92,7 @@ Diagram topologi Ring-5 yang dihasilkan dari kode di atas adalah sebagai berikut
 
 ---
 
-## 4.5.3 Prosedur Pengumpulan Data
+## 3.3 Prosedur Pengumpulan Data
 
 Prosedur eksekusi pengujian otomatis dan pengumpulan data dilakukan melalui tahapan yang berurutan dan dapat direplikasi oleh pihak lain:
 

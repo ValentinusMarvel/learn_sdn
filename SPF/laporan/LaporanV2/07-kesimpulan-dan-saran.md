@@ -1,6 +1,6 @@
-# 4.8 Kesimpulan dan Saran
+# BAB VI KESIMPULAN DAN SARAN
 
-## 4.8.1 Kesimpulan
+## 6.1 Kesimpulan
 
 Berdasarkan hasil rancangan, pengujian, dan analisis data kuantitatif terhadap 3.900 baris data eksperimen di bawah 7 skenario kegagalan pada topologi Ring-5 dan Jellyfish, proyek akhir ini menyimpulkan hal-hal berikut:
 
@@ -12,7 +12,7 @@ Berdasarkan hasil rancangan, pengujian, dan analisis data kuantitatif terhadap 3
 
 ---
 
-## 4.8.2 Keterbatasan
+## 6.2 Keterbatasan
 
 Proyek akhir ini memiliki beberapa keterbatasan teknis yang perlu diperhatikan dalam menafsirkan hasilnya:
 
@@ -24,7 +24,7 @@ Proyek akhir ini memiliki beberapa keterbatasan teknis yang perlu diperhatikan d
 
 ---
 
-## 4.8.3 Saran
+## 6.3 Saran
 
 Berdasarkan keterbatasan yang diidentifikasi, berikut adalah dua rekomendasi utama untuk pengembangan proyek serupa di masa depan:
 

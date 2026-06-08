@@ -2,14 +2,14 @@
 
 Direktori ini berisi kerangka (skeleton) laporan proyek akhir yang disusun secara tersegmentasi menjadi 8 berkas Markdown terpisah. Setiap berkas mewakili bab atau bagian dari struktur wajib laporan proyek akhir SDN:
 
-1.  `01-halaman-judul-dan-abstrak.md` (Bagian 4.1 Halaman Judul dan 4.2 Abstrak)
-2.  `02-pendahuluan.md` (Bagian 4.3 Pendahuluan: Latar Belakang, Tujuan, Ruang Lingkup, Sistematika)
-3.  `03-landasan-teori.md` (Bagian 4.4 Landasan Teori: Algoritme, Topologi, Metrik Evaluasi)
-4.  `04-metodologi.md` (Bagian 4.5 Metodologi: Perancangan, Parameter Link, Prosedur Replikasi)
-5.  `05-implementasi.md` (Bagian 4.6 Implementasi: Struktur Repositori, Mekanisme OpenFlow, Kendala)
-6.  `06-hasil-dan-analisis.md` (Bagian 4.7 Hasil dan Analisis: Grafik Relatif, Analisis Komparatif, Pembahasan Anomali)
-7.  `07-kesimpulan-dan-saran.md` (Bagian 4.8 Kesimpulan dan Saran: Kesimpulan Empiris, Keterbatasan, Saran)
-8.  `08-daftar-pustaka-dan-lampiran.md` (Bagian 4.9 Daftar Pustaka IEEE dan 4.10 Lampiran A, B, C)
+1.  `01-halaman-judul-dan-abstrak.md` (Halaman Judul dan Abstrak)
+2.  `02-pendahuluan.md` (Bab I Pendahuluan: Latar Belakang, Tujuan, Ruang Lingkup, Sistematika)
+3.  `03-landasan-teori.md` (Bab II Landasan Teori: Algoritme, Topologi, Metrik Evaluasi)
+4.  `04-metodologi.md` (Bab III Metodologi: Perancangan, Parameter Link, Prosedur Replikasi)
+5.  `05-implementasi.md` (Bab IV Implementasi: Struktur Repositori, Mekanisme OpenFlow, Kendala)
+6.  `06-hasil-dan-analisis.md` (Bab V Hasil dan Analisis: Grafik Relatif, Analisis Komparatif, Pembahasan Anomali)
+7.  `07-kesimpulan-dan-saran.md` (Bab VI Kesimpulan dan Saran: Kesimpulan Empiris, Keterbatasan, Saran)
+8.  `08-daftar-pustaka-dan-lampiran.md` (Daftar Pustaka IEEE dan Lampiran A, B, C)
 
 Setiap berkas dilengkapi dengan kotak informasi dan petunjuk penulisan akademik untuk membantu Anda melengkapi isi laporan secara profesional.
 

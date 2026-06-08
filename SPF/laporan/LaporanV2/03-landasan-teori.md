@@ -1,6 +1,6 @@
-# 4.4 Landasan Teori
+# BAB II LANDASAN TEORI
 
-## 4.4.1 Algoritme yang Diuji
+## 2.1 Algoritme yang Diuji
 
 Komputasi rute dinamis pada graf topologi jaringan memanfaatkan beberapa algoritme pencarian jalur terpendek yang disesuaikan dengan kebutuhan optimasi masing-masing. Proyek ini mengimplementasikan empat algoritme berikut:
 
@@ -22,7 +22,7 @@ Widest Path adalah modifikasi dari algoritme Dijkstra yang tujuannya bukan memin
 
 ---
 
-## 4.4.2 Topologi Jaringan
+## 2.2 Topologi Jaringan
 
 Struktur fisik *data plane* SDN memiliki pengaruh signifikan terhadap performa perutean dan tingkat resiliensi jalur terhadap kegagalan tautan. Proyek ini membandingkan dua karakteristik topologi yang bertolak belakang untuk mengevaluasi adaptabilitas algoritme pada kondisi jaringan yang berbeda:
 
@@ -40,7 +40,7 @@ Topologi Jellyfish dipilih karena mewakili struktur jaringan pusat data modern b
 
 ---
 
-## 4.4.3 Metrik Evaluasi
+## 2.3 Metrik Evaluasi
 
 Untuk menilai efisiensi dan ketahanan algoritme perutean secara objektif dan terukur, enam metrik evaluasi didefinisikan sebagai berikut:
 

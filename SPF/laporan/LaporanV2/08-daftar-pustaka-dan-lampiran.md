@@ -1,4 +1,4 @@
-# 4.9 Daftar Pustaka
+# DAFTAR PUSTAKA
 
 Sitasi di dalam teks laporan menggunakan penomoran dengan tanda kurung siku (contoh: [1], [5]). Format penulisan mengikuti panduan IEEE:
 
@@ -20,7 +20,7 @@ Sitasi di dalam teks laporan menggunakan penomoran dengan tanda kurung siku (con
 
 ---
 
-# 4.10 Lampiran
+# LAMPIRAN
 
 ## Lampiran A: Tabel Data Ringkasan Performa (Summary Statistics)
 
