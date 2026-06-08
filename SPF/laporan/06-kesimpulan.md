@@ -15,16 +15,16 @@ Seluruh algoritma (A*, Bellman-Ford, dan Widest Path) berhasil mendemonstrasikan
 ### B. Pemenang Peringkat Performa Komposit
 
 Algoritma **Bellman-Ford** menempati peringkat **#1** di kedua topologi dengan skor komposit:
-*   **Jellyfish**: 0.7641 (throughput rata-rata 95.15 Mbps, runtime 0.0931 ms, success rate 92.86%)
-*   **Ring-5**: 0.8000 (throughput rata-rata 94.59 Mbps, runtime 0.0418 ms, success rate 91.67%)
+*   **Jellyfish**: 0.8000 (throughput rata-rata 93.79 Mbps, runtime 0.0942 ms, success rate 89.43%)
+*   **Ring-5**: 0.8000 (throughput rata-rata 95.03 Mbps, runtime 0.0517 ms, success rate 90.83%)
 
 Namun, kemenangan ini perlu dikritisi secara akademis karena disebabkan oleh **perilaku bypass throttling yang tidak disengaja**: controller Bellman-Ford memperlakukan bandwidth statis dari `link_weights.json` sebagai *biaya jalur* (cost), sehingga ia menghindari link bandwidth tinggi `s1-s2` (cost 1000) yang justru sedang dibatasi oleh skenario bandwidth throttle. Perilaku ini menguntungkan Bellman-Ford secara tidak sengaja.
 
 ### C. Efisiensi Runtime Komputasi A*
 
-Algoritma **A\*** terbukti memiliki **runtime komputasi jalur tercepat** secara konsisten:
-*   **Jellyfish**: rata-rata **0.0566 ms** (vs Bellman-Ford 0.0931 ms, Widest Path 0.2600 ms)
-*   **Ring-5**: rata-rata **0.0427 ms** (vs Bellman-Ford 0.0418 ms, Widest Path 0.1595 ms)
+Algoritma **A\*** terbukti memiliki **runtime komputasi jalur tercepat** secara konsisten pada topologi kompleks:
+*   **Jellyfish**: rata-rata **0.0749 ms** (vs Bellman-Ford 0.0942 ms, Widest Path 0.0846 ms)
+*   **Ring-5**: rata-rata **0.0526 ms** (vs Bellman-Ford 0.0517 ms, Widest Path 0.0909 ms)
 
 Penggunaan heuristik estimasi jarak hop *reverse-BFS* secara efektif membatasi jumlah node graf yang diperiksa, menjadikan A* sebagai pilihan optimal untuk skenario di mana latensi komputasi jalur menjadi faktor kritis (misalnya pada topologi skala besar).
 

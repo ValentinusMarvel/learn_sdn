@@ -163,9 +163,9 @@ Seluruh visualisasi di bawah ini dihasilkan secara otomatis oleh Jupyter Noteboo
 ![Runtime Distribution](../img/analysis/runtime_distribution.png)
 
 **Interpretasi:**
-*   **A\*** memiliki runtime komputasi jalur tercepat secara konsisten, dengan rata-rata **0.054–0.073 ms** tergantung skenario. Penggunaan heuristik *reverse-BFS hop-count* secara efektif membatasi jumlah node graf yang perlu diperiksa (*pruning*).
-*   **Bellman-Ford** menunjukkan runtime yang sangat kompetitif di Ring-5 (**0.044–0.068 ms**) karena topologi ring yang kecil (5 switch) membatasi jumlah iterasi relaksasi. Pada Jellyfish, runtime sedikit lebih tinggi (**0.088–0.108 ms**) karena 10 switch memerlukan lebih banyak iterasi.
-*   **Widest Path** secara umum lebih lambat dibanding A* karena menggunakan modifikasi Dijkstra tanpa heuristik. Pada skenario `link_down_during_traffic` di Ring-5, terjadi *outlier* runtime hingga **0.270 ms** dengan standar deviasi **1.546 ms**, menunjukkan beberapa kalkulasi jalur yang sangat lambat saat topologi berubah di tengah transfer data.
+*   **A\*** memiliki runtime komputasi jalur tercepat secara konsisten pada topologi kompleks, dengan rata-rata keseluruhan **0.0749 ms** pada Jellyfish dan **0.0526 ms** pada Ring-5. Penggunaan heuristik *reverse-BFS hop-count* secara efektif membatasi jumlah node graf yang perlu diperiksa (*pruning*).
+*   **Bellman-Ford** menunjukkan runtime yang sangat kompetitif di Ring-5 (rata-rata **0.0517 ms**) karena topologi ring yang kecil (5 switch) membatasi jumlah iterasi relaksasi. Pada Jellyfish, runtime sedikit lebih tinggi (rata-rata **0.0942 ms**) karena 10 switch memerlukan lebih banyak iterasi.
+*   **Widest Path** secara umum lebih lambat dibanding A* karena menggunakan modifikasi Dijkstra tanpa heuristik (rata-rata **0.0846 ms** pada Jellyfish dan **0.0909 ms** pada Ring-5). Pada skenario `link_down_during_traffic` di Ring-5, terjadi *outlier* runtime hingga **0.2700 ms**, menunjukkan beberapa kalkulasi jalur yang lambat saat topologi berubah di tengah transfer data.
 *   Secara keseluruhan, semua algoritma beroperasi di bawah **1 ms**, menunjukkan bahwa overhead komputasi jalur tidak menjadi bottleneck signifikan pada skala topologi yang diuji.
 
 ---
@@ -228,17 +228,17 @@ Berikut adalah tabel peringkat akhir performa algoritma komposit per topologi ha
 
 | Peringkat | Algoritma | Mean Throughput (Mbps) | Mean Runtime (ms) | Success Rate | Composite Score |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| 🥇 1 | **Bellman-Ford** | 95.15 | 0.0931 | 92.86% | **0.7641** |
-| 🥈 2 | **A\*** | 95.08 | 0.0566 | 92.86% | **0.4439** |
-| 🥉 3 | **Widest Path** | 95.06 | 0.2600 | 92.86% | **0.0000** |
+| 🥇 1 | **Bellman-Ford** | 93.79 | 0.0942 | 89.43% | **0.8000** |
+| 🥈 2 | **A\*** | 93.35 | 0.0749 | 89.29% | **0.7046** |
+| 🥉 3 | **Widest Path** | 91.49 | 0.0846 | 89.29% | **0.0991** |
 
 ### B. Topologi Ring-5 (5 Switch, 10 Host, 6 Skenario)
 
 | Peringkat | Algoritma | Mean Throughput (Mbps) | Mean Runtime (ms) | Success Rate | Composite Score |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| 🥇 1 | **Bellman-Ford** | 94.59 | 0.0418 | 91.67% | **0.8000** |
-| 🥈 2 | **A\*** | 87.43 | 0.0427 | 91.67% | **0.1985** |
-| 🥉 3 | **Widest Path** | 87.46 | 0.1595 | 91.67% | **0.0016** |
+| 🥇 1 | **Bellman-Ford** | 95.03 | 0.0517 | 90.83% | **0.8000** |
+| 🥈 2 | **A\*** | 88.04 | 0.0526 | 90.83% | **0.2897** |
+| 🥉 3 | **Widest Path** | 86.39 | 0.0909 | 90.83% | **0.0000** |
 
 ### C. Analisis Anomali dan Catatan Penting
 
