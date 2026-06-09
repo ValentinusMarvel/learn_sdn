@@ -161,7 +161,8 @@ os-ken-manager SPF/bellman_ford_osken_controller.py
 **Perintah eksekusi testbed otomatis:**
 
 ```bash
-python3 SPF/benchmark_core.py --topo ring5 --controller bellman_ford \
+sudo python3 SPF/testing-code/run_live_scenarios.py --topologies ring5 --algorithms bellman_ford \
+  --scenarios baseline_no_failure link_down_before_traffic link_down_during_traffic link_flap switch_down bandwidth_throttle \
   --max-pairs 20 --repetitions 5 --output SPF/csv/ring5-scenarios.jsonl
 ```
 

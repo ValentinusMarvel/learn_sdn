@@ -106,9 +106,10 @@ Jalankan skrip `benchmark_core.py` untuk mengotomatisasi inisialisasi topologi, 
 
 ```bash
 # Contoh eksekusi untuk topologi Ring-5 dengan Bellman-Ford
-python3 SPF/benchmark_core.py \
-  --topo ring5 \
-  --controller bellman_ford \
+sudo python3 SPF/testing-code/run_live_scenarios.py \
+  --topologies ring5 \
+  --algorithms bellman_ford \
+  --scenarios baseline_no_failure link_down_before_traffic link_down_during_traffic link_flap switch_down bandwidth_throttle \
   --max-pairs 20 \
   --repetitions 5 \
   --output SPF/csv/ring5-scenarios.jsonl
