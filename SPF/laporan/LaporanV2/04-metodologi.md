@@ -127,8 +127,8 @@ File log JSONL dikonversi menjadi tabel CSV terstruktur menggunakan modul konver
 
 ```bash
 python3 SPF/benchmark_jsonl_to_csv.py \
-  SPF/csv/ring5-scenarios.jsonl \
-  SPF/csv/ring5-scenarios.csv
+  --input SPF/csv/ring5-scenarios.jsonl \
+  --output SPF/csv/ring5-scenarios.csv
 ```
 
 **Langkah 5: Validasi dan Analisis Data**
