@@ -102,7 +102,7 @@ Jalankan kontainer Docker yang telah diinstalasi Mininet, OS-Ken, dan semua depe
 
 **Langkah 2: Eksekusi Testbed Otomatis**
 
-Jalankan skrip `benchmark_core.py` untuk mengotomatisasi inisialisasi topologi, aktivasi pengendali, pemicuan skenario kegagalan, dan pencatatan data performa. Skrip ini menangani semua langkah secara mandiri:
+Jalankan skrip `testing-code/run_live_scenarios.py` untuk mengotomatisasi inisialisasi topologi, aktivasi pengendali, pemicuan skenario kegagalan, dan pencatatan data performa. Skrip ini menangani semua langkah secara mandiri:
 
 ```bash
 # Contoh eksekusi untuk topologi Ring-5 dengan Bellman-Ford

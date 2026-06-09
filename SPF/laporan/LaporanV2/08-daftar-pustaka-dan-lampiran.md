@@ -136,8 +136,10 @@ learn_sdn/
     ├── link_weights.json                        # Konfigurasi bobot tautan statis
     ├── topo-ring5_lab.py                        # Definisi topologi Ring-5 (Mininet)
     ├── jellyfish_topo.py                        # Definisi topologi Jellyfish (Mininet)
-    ├── benchmark_core.py                        # Skrip otomatisasi eksekusi skenario
+    ├── benchmark_core.py                        # Pustaka inti orkestrasi eksperimen (Mininet & OS-Ken)
     ├── benchmark_jsonl_to_csv.py                # Konverter log JSONL ke CSV
+    ├── testing-code/
+    │   └── run_live_scenarios.py                # Skrip utama pengeksekusi otomatisasi 7 skenario
     ├── algorithms/
     │   ├── astar.py                             # Implementasi A* murni
     │   ├── bellman_ford.py                      # Implementasi Bellman-Ford murni

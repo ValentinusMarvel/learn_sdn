@@ -17,7 +17,8 @@ Implementasi perutean SPF terintegrasi penuh dengan struktur modular repositori 
 | **Algoritme Murni** | `algorithms/astar.py` | Implementasi pencarian A\* terpisah dari dependensi OS-Ken. |
 | | `algorithms/bellman_ford.py` | Implementasi Bellman-Ford murni dengan deteksi *negative cycle*. |
 | | `algorithms/widest_path.py` | Implementasi pencarian jalur dengan *bottleneck bandwidth* maksimal. |
-| **Testbed** | `benchmark_core.py` | Logika eksekusi otomatisasi 7 skenario kegagalan. |
+| **Testbed** | `testing-code/run_live_scenarios.py` | Skrip utama pengeksekusi otomatisasi 7 skenario kegagalan. |
+| | `benchmark_core.py` | Pustaka inti orkestrasi emulasi (Mininet, OS-Ken, dan iperf3). |
 | | `benchmark_jsonl_to_csv.py` | Konversi log JSONL ke tabel CSV terstruktur. |
 | **Konfigurasi** | `link_weights.json` | File JSON bobot kapasitas tautan statis yang dibaca oleh controller Bellman-Ford dan Widest Path. |
 | **Analisis** | `analysis/plot_results_executed_final.ipynb` | Jupyter Notebook pipeline analisis data: statistik, peringkat komposit, dan 8 visualisasi grafis. |
